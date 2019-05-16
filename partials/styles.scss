@@ -1,2 +1,51 @@
 @import './setup';
 
+body {
+    background-color: gray;
+}
+
+.game-container {
+    width: 500px;
+    max-width: 800px;
+    height: 500px;
+    // border: 3px solid brown;
+    background-color: black;
+    margin: auto;
+}
+
+div:not(.game-container) {
+    background-color: black;
+    border: solid 3px white;
+    width: 50px;
+    height: 50px;
+    float: left;
+    position: relative;
+}
+
+div.untrigger {
+    background-color: orange;
+}
+
+div.triggered {
+    background-color: firebrick;
+}
+
+div.start-tile {
+    background-color: gray;
+}
+
+div.end-tile {
+    background-color: green;
+}
+
+div.player {
+    width: 75%;
+    height: 75%;
+    border-radius: 50%;
+    background-color: teal;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
