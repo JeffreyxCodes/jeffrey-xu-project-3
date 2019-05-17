@@ -87,7 +87,8 @@ const game = {
     },
 
     resetGrid: function () {
-        for (let i = 0; i <= this.pathTiles; i++) {
+        const tiles = this.path.length;
+        for (let i = 0; i < tiles; i++) {
             this.grid[this.path[i][0]][this.path[i][1]] = 0;
             this.updateTile("", this.path[i][0], this.path[i][1]);
         }
@@ -99,6 +100,27 @@ const game = {
 
     updateGrid: function() {
         // update grid for the next round with new values from path
+        let value;
+        for (let i = 0; i < this.pathTiles; i++) {
+            value = this.grid[this.path[i][0]][this.path[i][1]];
+            if(value === 1) {
+                this.updateTile("untrigger", ...this.path[i]);
+            } else if(value === 3) {
+                this.updateTile("start-tile", ...this.path[i]);
+            } else if(value === 4){
+                this.updateTile("end-tile", ...this.path[i]);
+            }
+        }
+    },
+
+    newLevel: function() {
+        this.resetGrid();
+
+        this.setStartPosition(Math.floor(Math.random() * this.grid.length), Math.floor(Math.random() * this.grid.length));
+        this.setPath();
+        this.updateGrid();
+        this.removePlayer();
+        this.drawPlayer();
     },
 
     drawPlayer: function () {
@@ -121,18 +143,18 @@ const game = {
     },
 
     checkAdjacent: function(direction, eX, eY) {
-        if (direction === 1) { // left or right of the player
+        if (direction === 1) { // distance of 1 from player
             if (this.grid[eX][eY] === 1) {
                 this.movePlayer("triggered", eX, eY); // step on an untrigger tile
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
                 this.movePlayer("end-tile", eX, eY);
-                console.log("win");
+                this.newLevel();
             }
         }
     },
 
-    initListener: function () {
-        this.$container.on("click", (e) => {
+    initClick: function () {
+        this.$container.on("click", "div", (e) => {
             if (e.target.className !== "player") {
                 let [eX, eY] = e.target.dataset.position.split(",");
                 [eX, eY] = [Number(eX), Number(eY)];
@@ -151,6 +173,21 @@ const game = {
         });
     },
 
+    initArrowKeys: function () {
+        $(document).keyup((e) => {
+            const [x, y] = this.player;
+            if (e.keyCode === 37 && x > 0) { // left
+                this.checkAdjacent(1, x - 1, y);
+            } else if(e.keyCode === 38 && y > 0) { // up
+                this.checkAdjacent(1, x, y - 1);
+            } else if (e.keyCode === 39 && x < this.grid.length - 1) { // right
+                this.checkAdjacent(1, x + 1, y);
+            } else if (e.keyCode === 40 && y < this.grid.length - 1) { // down
+                this.checkAdjacent(1, x, y + 1);
+            }
+        });
+    },
+
     init: function () {
         this.initGrid();
 
@@ -158,9 +195,10 @@ const game = {
         this.setPath();
         this.drawGrid();
 
-        this.initListener();
         this.drawPlayer();
-
+        this.initClick();
+        this.initArrowKeys();
+        
         // console.log(this.grid);
     }
 };
