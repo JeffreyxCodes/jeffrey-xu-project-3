@@ -180,7 +180,19 @@ legend, button::-moz-focus-inner, input::-moz-focus-inner {
 }
 
 body {
-  background-color: gray;
+  height: 100vh;
+  background-color: #7f5a83;
+  background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%);
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.8rem;
+  height: 10vh;
+  margin: 0;
+  padding: 20px;
+  color: chocolate;
+  text-shadow: 2px 2px 2px brown;
 }
 
 .game-container {
@@ -188,16 +200,20 @@ body {
   max-width: 800px;
   height: 500px;
   background-color: black;
-  margin: auto;
+  margin: 10px auto;
 }
 
-div:not(.game-container) {
+.game-container div {
   background-color: black;
   border: solid 3px white;
   width: 50px;
   height: 50px;
   float: left;
   position: relative;
+}
+
+.game-container div:hover, .game-container div:focus {
+  border: solid 3px purple;
 }
 
 div.untrigger {
@@ -226,4 +242,76 @@ div.player {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+}
+
+svg {
+  width: 100%;
+  height: auto;
+}
+
+section {
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 500px;
+}
+
+section button {
+  width: 15%;
+  min-width: 75px;
+  padding: 5px;
+  border-radius: 20px;
+  background: #70e1f5;
+  /* fallback for old browsers */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-gradient(linear, left top, right top, from(#ffd194), to(#70e1f5));
+  background: linear-gradient(to right, #ffd194, #70e1f5);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  -webkit-box-shadow: 4px 4px 2px gray;
+          box-shadow: 4px 4px 2px gray;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+}
+
+section button:hover, section button:focus {
+  background: #B3FFAB;
+  /* fallback for old browsers */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-gradient(linear, left top, right top, from(#12FFF7), to(#B3FFAB));
+  background: linear-gradient(to right, #12FFF7, #B3FFAB);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.reset {
+  display: block;
+  width: 500px;
+  margin: 20px auto 10px;
+  padding: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  background-color: darkgray;
+  -webkit-box-shadow: 4px 4px 2px gray;
+          box-shadow: 4px 4px 2px gray;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+  color: brown;
+  text-shadow: 2px 2px 2px white;
+}
+
+.reset:hover, .reset:focus {
+  background-color: khaki;
+  -webkit-transform: scale(1.03);
+          transform: scale(1.03);
 }

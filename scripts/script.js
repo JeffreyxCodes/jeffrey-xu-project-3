@@ -171,6 +171,20 @@ const game = {
                 }
             }
         });
+
+        $(`section`).on(`click`, `div`, (e) => {
+            // console.log(e);
+            const [x, y] = this.player;
+            if (e.currentTarget.className === "left") {
+                this.checkAdjacent(1, x - 1, y);
+            } else if (e.currentTarget.className  === "up") {
+                this.checkAdjacent(1, x, y - 1);
+            } else if (e.currentTarget.className  === "right") {
+                this.checkAdjacent(1, x + 1, y);
+            } else {
+                this.checkAdjacent(1, x, y + 1);
+            }
+        })
     },
 
     initArrowKeys: function () {
