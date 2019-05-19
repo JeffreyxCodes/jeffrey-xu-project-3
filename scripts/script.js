@@ -125,7 +125,7 @@ const game = {
 
     drawPlayer: function () {
         $(`[data-position="${this.player.toString()}"]`).append(
-            `<div class="player"></div>`
+            `<div class="player" aria-label="player is here"></div>`
         );
     },
 
@@ -172,7 +172,7 @@ const game = {
             }
         });
 
-        $(`section`).on(`click`, `div`, (e) => {
+        $(`section`).on(`click`, `button`, (e) => {
             // console.log(e);
             const [x, y] = this.player;
             if (e.currentTarget.className === "left") {
