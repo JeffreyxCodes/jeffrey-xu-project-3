@@ -11,12 +11,14 @@ const game = {
     score: 0,
     $container: $(`.game-container`),
 
+    // create the 2d array used for the grid
     initGrid: function () {
         for (let i = 0; i < 10; i++) {
             this.grid.push((new Array(10)).fill(0));
         };
     },
 
+    // set the start tile
     setStartPosition: function (x, y) {
         this.path = []; // for when the game resets
         this.path.push([x, y]);
@@ -25,6 +27,7 @@ const game = {
         this.player.push(x, y);
     },
 
+    // find available tiles to move onto that's beside the given tile position
     findFreeTiles: function (x, y) {
         const freeTiles = [];
         if (x - 1 >= 0 && this.grid[x - 1][y] === 0) {
@@ -42,6 +45,7 @@ const game = {
         return freeTiles;
     },
 
+    // build a traversal path
     setPath: function () {
         let [x, y] = this.path[0]; // start point
         let freeTiles = this.findFreeTiles(x, y);
@@ -56,6 +60,7 @@ const game = {
         this.pathTiles = this.path.length;
     },
 
+    // displays the grid - only used for the initial start of the app
     drawGrid: function () {
         let value;
         for (let i = 0; i < 10; i++) { // y axis
@@ -66,6 +71,8 @@ const game = {
         }
     },
 
+    // draw a tile given the type in terms of value and the tiles position
+    // - only used for the initial start of the app
     drawTile: function (value, x, y) {
         if (value === 0) {
             this.$container.append(
@@ -86,6 +93,7 @@ const game = {
         }
     },
 
+    // reset the grid's value 
     resetGrid: function () {
         const tiles = this.path.length;
         for (let i = 0; i < tiles; i++) {
@@ -94,10 +102,12 @@ const game = {
         }
     },
 
+    // update the tile given the type and position
     updateTile: function (type, x, y) {
         $(`[data-position="${x},${y}"]`).attr("class", type);
     },
 
+    // update the grid
     updateGrid: function() {
         // update grid for the next round with new values from path
         let value;
@@ -113,6 +123,7 @@ const game = {
         }
     },
 
+    // setup for a new level
     newLevel: function() {
         this.resetGrid();
 
@@ -123,16 +134,19 @@ const game = {
         this.drawPlayer();
     },
 
+    // display the player
     drawPlayer: function () {
         $(`[data-position="${this.player.toString()}"]`).append(
             `<div class="player" aria-label="player is here"></div>`
         );
     },
 
+    // remove the player
     removePlayer: function () {
         $(`.player`).remove();
     },
 
+    // move the player and update values accordingly
     movePlayer: function (type, x, y) {
         this.pathTiles--;
         this.grid[x][y] = 2;
@@ -142,8 +156,9 @@ const game = {
         this.drawPlayer();
     },
 
-    checkAdjacent: function(direction, eX, eY) {
-        if (direction === 1) { // distance of 1 from player
+    // check if there's an adjacent tile
+    checkAdjacent: function(distance, eX, eY) {
+        if (distance === 1) { // distance of 1 from player
             if (this.grid[eX][eY] === 1) { // step on an untrigger tile
                 this.movePlayer("triggered", eX, eY); 
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
@@ -153,7 +168,9 @@ const game = {
         }
     },
 
+    // initialize all the click events
     initClick: function () {
+        // initialize click event for the tiles
         this.$container.on("click", "div", (e) => {
             if (e.target.className !== "player") {
                 let [eX, eY] = e.target.dataset.position.split(",");
@@ -172,6 +189,7 @@ const game = {
             }
         });
 
+        // initialize click event for the virtual arrow keys
         $(`section`).on(`click`, `button`, (e) => {
             // console.log(e);
             const [x, y] = this.player;
@@ -187,6 +205,7 @@ const game = {
         })
     },
 
+    // initialize the arrow keys on the keyboard
     initArrowKeys: function () {
         $(document).keyup((e) => {
             const [x, y] = this.player;
@@ -202,6 +221,7 @@ const game = {
         });
     },
 
+    // initialize the game
     init: function () {
         this.initGrid();
 
@@ -212,8 +232,6 @@ const game = {
 
         this.initClick();
         this.initArrowKeys();
-        
-        // console.log(this.grid);
     }
 };
 
