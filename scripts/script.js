@@ -144,8 +144,8 @@ const game = {
 
     checkAdjacent: function(direction, eX, eY) {
         if (direction === 1) { // distance of 1 from player
-            if (this.grid[eX][eY] === 1) {
-                this.movePlayer("triggered", eX, eY); // step on an untrigger tile
+            if (this.grid[eX][eY] === 1) { // step on an untrigger tile
+                this.movePlayer("triggered", eX, eY); 
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
                 this.movePlayer("end-tile", eX, eY);
                 this.newLevel();
@@ -205,11 +205,11 @@ const game = {
     init: function () {
         this.initGrid();
 
-        this.setStartPosition(4, 6);
+        this.setStartPosition(Math.floor(Math.random() * this.grid.length), Math.floor(Math.random() * this.grid.length));
         this.setPath();
         this.drawGrid();
-
         this.drawPlayer();
+
         this.initClick();
         this.initArrowKeys();
         
