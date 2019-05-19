@@ -1,5 +1,15 @@
 @import './setup';
 
+@import './typography';
+
+@import './animation';
+
+@import './_title';
+
+@import './control';
+
+@import './grid';
+
 
 
 
@@ -10,218 +20,9 @@ body {
     height: 100vh;
     background-color: #7f5a83;
     background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%);
-    font-family: 'Lato', sans-serif;
-}
-
-
-h1,
-.reset {
-    font-family: 'Permanent Marker', cursive;
-    margin: 0;
-}
-
-@keyframes front-back {
-    0% {
-        z-index: 2;
-        opacity: 1;
-    }
-    10% {
-        z-index: 2;
-        opacity: 1;
-    }
-    20% {
-        z-index: 2;
-        opacity: 1;
-    }
-    30% {
-        z-index: 2;
-        opacity: 0.80;
-    }
-    40% {
-        z-index: 2;
-        opacity: 0.60;
-    }
-    50% {
-        z-index: 2;
-        opacity: 0.40;
-    }
-    60% {
-        z-index: 2;
-        opacity: 0.20;
-    }
-    70% {
-        z-index: 2;
-        opacity: 0.40;
-    }
-    80% {
-        z-index: 0;
-        opacity: 0.60;
-    }
-    90% {
-        z-index: 0;
-        opacity: 0.80;
-    }
-    100% {
-        z-index: 0;
-        opacity: 1;
-    }
-}
-
-.title {
-    width: 90%;
-    margin: auto;
-
-    @media (max-width: 500px) {
-        font-size: 0.85rem;
-    }
-
-    .back {
-        text-transform: uppercase;
-        color: white;
-        text-shadow: 0 0 10px gray;
-        font-size: 4.8em;
-        position: absolute;
-        top: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-
-        animation: front-back;
-        animation-duration: 10s;
-        animation-direction: alternate;
-        animation-timing-function: linear;
-    }
-
-    .front {
-        text-align: center;
-        font-variant: small-caps;
-        font-size: 2.6em;
-        font-weight: bold;
-        height: 10vh;
-        padding: 20px;
-        background: #FF4E50;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to top, #F9D423, #FF4E50);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to top, #F9D423, #FF4E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        transform: rotate(-2deg);
-    }
-}
-
-.game-container {
-    width: 80vw;
-    max-width: 600px;
-    height: 80vw;
-    max-height: 600px;
-    // padding-bottom: 100%;
-    background-color: black;
-    margin: 20px auto;
-    position: relative;
-    // overflow: hidden;
-
-    // .inner-container {
-    //     position: absolute;
-    //     top: 0;
-    //     bottom: 0;
-    //     left: 0;
-    //     right: 0;
-    //     width: 100%;
-    //     height: 100%;
-
-        div {
-            background-color: black;
-            border: solid 3px white;
-            width: 10%;
-            height: 10%;
-            float: left;
-            position: relative;
-
-            &:hover, &:focus {
-                border: solid 3px purple;
-            }
-        }
-    // }
-}
-
-div.untrigger {
-    background-color: orange;
-}
-
-div.triggered {
-    background-color: firebrick;
-}
-
-div.start-tile {
-    background-color: gray;
-}
-
-div.end-tile {
-    background-color: green;
-}
-
-div.player {
-    width: 75%;
-    height: 75%;
-    border-radius: 50%;
-    background-color: teal;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 svg {
     width: 100%;
     height: auto;
-}
-
-section {
-    margin: auto;
-    display: flex;
-    justify-content: space-evenly;
-    width: 80vw;
-    max-width: 600px;   
-
-    button {
-        width: 15%;
-        min-width: 70px;
-        padding: 5px;
-        margin: 5px;
-        border: none;
-        border-radius: 20px;
-        background: #70e1f5;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #ffd194, #70e1f5);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #ffd194, #70e1f5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        box-shadow: 4px 4px 2px gray;
-        transition: transform 0.2s;
-
-        &:hover, &:focus {
-            background: #B3FFAB;  /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #12FFF7, #B3FFAB);  /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #12FFF7, #B3FFAB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-            transform: scale(1.1);
-        }
-    }
-}
-
-.reset {
-    display: block;
-    width: 80vw;
-    max-width: 600px;
-    margin: 20px auto 10px;
-    padding: 10px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 25px;
-    background-color: darkgray;
-    box-shadow: 4px 4px 2px gray;
-    transition: transform 0.2s;
-    color: brown;
-    text-shadow: 2px 2px 2px white;
-
-    &:hover, &:focus {
-        background-color: khaki;
-        transform: scale(1.03);
-    }
 }

@@ -180,9 +180,6 @@ legend, button::-moz-focus-inner, input::-moz-focus-inner {
 }
 
 body {
-  height: 100vh;
-  background-color: #7f5a83;
-  background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%);
   font-family: 'Lato', sans-serif;
 }
 
@@ -286,6 +283,17 @@ h1,
   }
 }
 
+.back {
+  -webkit-animation: front-back;
+          animation: front-back;
+  -webkit-animation-duration: 10s;
+          animation-duration: 10s;
+  -webkit-animation-direction: alternate;
+          animation-direction: alternate;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+}
+
 .title {
   width: 90%;
   margin: auto;
@@ -307,14 +315,6 @@ h1,
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
-  -webkit-animation: front-back;
-          animation: front-back;
-  -webkit-animation-duration: 10s;
-          animation-duration: 10s;
-  -webkit-animation-direction: alternate;
-          animation-direction: alternate;
-  -webkit-animation-timing-function: linear;
-          animation-timing-function: linear;
 }
 
 .title .front {
@@ -334,62 +334,6 @@ h1,
   -webkit-text-fill-color: transparent;
   -webkit-transform: rotate(-2deg);
           transform: rotate(-2deg);
-}
-
-.game-container {
-  width: 80vw;
-  max-width: 600px;
-  height: 80vw;
-  max-height: 600px;
-  background-color: black;
-  margin: 20px auto;
-  position: relative;
-}
-
-.game-container div {
-  background-color: black;
-  border: solid 3px white;
-  width: 10%;
-  height: 10%;
-  float: left;
-  position: relative;
-}
-
-.game-container div:hover, .game-container div:focus {
-  border: solid 3px purple;
-}
-
-div.untrigger {
-  background-color: orange;
-}
-
-div.triggered {
-  background-color: firebrick;
-}
-
-div.start-tile {
-  background-color: gray;
-}
-
-div.end-tile {
-  background-color: green;
-}
-
-div.player {
-  width: 75%;
-  height: 75%;
-  border-radius: 50%;
-  background-color: teal;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
-
-svg {
-  width: 100%;
-  height: auto;
 }
 
 section {
@@ -454,6 +398,7 @@ section button:hover, section button:focus {
   transition: transform 0.2s;
   transition: transform 0.2s, -webkit-transform 0.2s;
   color: brown;
+  text-transform: uppercase;
   text-shadow: 2px 2px 2px white;
 }
 
@@ -461,4 +406,73 @@ section button:hover, section button:focus {
   background-color: khaki;
   -webkit-transform: scale(1.03);
           transform: scale(1.03);
+}
+
+.game-container {
+  width: 80vw;
+  max-width: 600px;
+  height: 80vw;
+  max-height: 600px;
+  background-color: black;
+  margin: 20px auto;
+  position: relative;
+}
+
+@media (max-width: 600px) {
+  .game-container {
+    width: 90vw;
+    height: 90vw;
+  }
+}
+
+.game-container div {
+  background-color: black;
+  border: solid 3px white;
+  width: 10%;
+  height: 10%;
+  float: left;
+  position: relative;
+}
+
+.game-container div:hover, .game-container div:focus {
+  border: solid 3px purple;
+}
+
+div.untrigger {
+  background-color: orange;
+}
+
+div.triggered {
+  background-color: firebrick;
+}
+
+div.start-tile {
+  background-color: gray;
+}
+
+div.end-tile {
+  background-color: green;
+}
+
+div.player {
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  background-color: teal;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+body {
+  height: 100vh;
+  background-color: #7f5a83;
+  background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%);
+}
+
+svg {
+  width: 100%;
+  height: auto;
 }

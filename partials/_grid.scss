@@ -1,0 +1,55 @@
+.game-container {
+    width: 80vw;
+    max-width: 600px;
+    height: 80vw;
+    max-height: 600px;
+    background-color: black;
+    margin: 20px auto;
+    position: relative;
+
+    @media (max-width: 600px) {
+        width: 90vw;
+        height: 90vw;
+    }
+
+    div {
+        background-color: black;
+        border: solid 3px white;
+        width: 10%;
+        height: 10%;
+        float: left;
+        position: relative;
+
+        &:hover, &:focus {
+            border: solid 3px purple;
+        }
+    }
+}
+
+div.untrigger {
+    background-color: orange;
+}
+
+div.triggered {
+    background-color: firebrick;
+}
+
+div.start-tile {
+    background-color: gray;
+}
+
+div.end-tile {
+    background-color: green;
+}
+
+div.player {
+    width: 75%;
+    height: 75%;
+    border-radius: 50%;
+    background-color: teal;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
