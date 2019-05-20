@@ -127,9 +127,17 @@ const game = {
     },
 
     // setup for a new level
-    newLevel: function() {
+    newLevel: function(level, score) {
+        // set the level and score
+        this.level = level;
+        this.$level.text(this.level);
+        this.score = score
+        this.$score.text(this.score);
+
+        // reset the grid
         this.resetGrid();
 
+        // setup the path, grid, and player on the grid
         this.setStartPosition(Math.floor(Math.random() * this.grid.length), Math.floor(Math.random() * this.grid.length));
         this.setPath();
         this.updateGrid();
@@ -166,11 +174,7 @@ const game = {
                 this.movePlayer("triggered", eX, eY); 
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
                 this.movePlayer("end-tile", eX, eY);
-                this.level++;
-                this.$level.text(this.level);
-                this.score += this.path.length - 1;
-                this.$score.text(this.score);
-                this.newLevel(); // setup next level after updating level and score
+                this.newLevel(this.level + 1, this.score + this.path.length - 1);
             }
         }
     },
@@ -214,6 +218,11 @@ const game = {
                 this.checkAdjacent(1, x, y + 1);
             }
         })
+
+        // initialize restart button
+        $('.restart').on(`click`, () => {
+            this.newLevel(0, 0);
+        });
     },
 
     // initialize the arrow keys on the keyboard
