@@ -148,7 +148,7 @@ const game = {
     // display the player
     drawPlayer: function () {
         $(`[data-position="${this.player.toString()}"]`).append(
-            `<div class="player" aria-label="player is here"></div>`
+            `<div class="player" aria-label="player at position (${this.player.toString()})""></div>`
         );
     },
 
