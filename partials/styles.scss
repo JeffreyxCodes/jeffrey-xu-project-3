@@ -6,6 +6,8 @@
 
 @import './_title';
 
+@import './stats';
+
 @import './control';
 
 @import './grid';
@@ -20,6 +22,17 @@ body {
     height: 100vh;
     background-color: #7f5a83;
     background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%);
+}
+
+.wrapper {
+    width: 80vw;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (max-width: 600px) {
+        width: 90vw;
+    }
 }
 
 svg {

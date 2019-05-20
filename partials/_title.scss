@@ -2,7 +2,7 @@
     width: 90%;
     margin: auto;
 
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
         font-size: 0.85rem;
     }
 
@@ -12,7 +12,7 @@
         text-shadow: 0 0 10px gray;
         font-size: 4.8em;
         position: absolute;
-        top: -10px;
+        top: -20px;
         left: 50%;
         transform: translateX(-50%);
     }
@@ -23,7 +23,6 @@
         font-size: 2.6em;
         font-weight: bold;
         height: 10vh;
-        padding: 20px;
         background: #FF4E50;  /* fallback for old browsers */
         background: -webkit-linear-gradient(to top, #F9D423, #FF4E50);  /* Chrome 10-25, Safari 5.1-6 */
         background: linear-gradient(to top, #F9D423, #FF4E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */

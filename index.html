@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>No Looking Back</title>
-    <link href="https://fonts.googleapis.com/css?family=Lato|Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato|Permanent+Marker|Russo+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/styles.css">
 </head>
 <body>
@@ -14,10 +14,14 @@
         <h1 class="front">Looking Back</h1>
     </div>
 
-    <div class="game-container" aria-label="game container with divs">
-        <!-- <div class="inner-container"></div> -->
+    <div class="stats wrapper">
+        <h3>Level: <span class="level">0</span></h3>
+        <h3>Score: <span class="score">0</span></h3>
     </div>
-    <section>
+
+    <div class="game-container wrapper" aria-label="game field with 100 tiles"></div>
+
+    <section class="arrow-keys wrapper">
         <button class="left">
             <svg height="1792" viewBox="0 0 1792 1792" width="1792" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1664 896v128q0 53-32.5 90.5t-84.5 37.5h-704l293 294q38 36 38 90t-38 90l-75 76q-37 37-90 37-52 0-91-37l-651-652q-37-37-37-90 0-52 37-91l651-650q38-38 91-38 52 0 90 38l75 74q38 38 38 91t-38 91l-293 293h704q52 0 84.5 37.5t32.5 90.5z" />
@@ -39,7 +43,12 @@
             </svg>
         </button>
     </section>
-    <button class="reset">Reset</button>
+
+    <section class="other-controls wrapper">
+        <button>Instructions</button>
+        <button>Restart</button>
+    </section>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="./scripts/script.js"></script>
 </body>

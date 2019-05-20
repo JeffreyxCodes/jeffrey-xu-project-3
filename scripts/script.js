@@ -8,7 +8,10 @@ const game = {
     path: [],
     pathTiles: 0,
     player: [],
+    level: 0,
     score: 0,
+    $level: $(`.level`),
+    $score: $(`.score`),
     $container: $(`.game-container`),
 
     // create the 2d array used for the grid
@@ -163,9 +166,17 @@ const game = {
                 this.movePlayer("triggered", eX, eY); 
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
                 this.movePlayer("end-tile", eX, eY);
-                this.newLevel();
+                this.level++;
+                this.$level.text(this.level);
+                this.score += this.path.length - 1;
+                this.$score.text(this.score);
+                this.newLevel(); // setup next level after updating level and score
             }
         }
+    },
+
+    setSize: function() {
+
     },
 
     // initialize all the click events

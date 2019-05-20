@@ -1,15 +1,18 @@
-section {
+.arrow-keys {
     margin: auto;
     display: flex;
-    justify-content: space-evenly;
-    width: 80vw;
-    max-width: 600px;   
+    justify-content: center;
+    display: none;
+
+    @media (max-width: 800px) {
+        display: flex;
+    }
 
     button {
-        width: 15%;
-        min-width: 70px;
+        width: 12%;
+        min-width: 60px;
         padding: 5px;
-        margin: 5px;
+        margin: 10px;
         border: none;
         border-radius: 20px;
         background: #70e1f5;  /* fallback for old browsers */
@@ -27,25 +30,35 @@ section {
     }
 }
 
-.reset {
-    display: block;
-    width: 80vw;
-    max-width: 600px;
-    margin: 20px auto 10px;
-    padding: 10px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 25px;
-    background-color: darkgray;
-    box-shadow: 4px 4px 2px gray;
-    transition: transform 0.2s;
-    color: brown;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 2px white;
+.other-controls {
+    display: flex;
+    justify-content: space-evenly;
+    margin: auto;
 
-    &:hover, &:focus {
-        background-color: khaki;
-        transform: scale(1.03);
+    button {
+        display: block;
+        width: 45%;
+        margin: 5px auto;
+        padding: 5px;
+        font-size: 1.4rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 25px;
+        background-color: darkgray;
+        box-shadow: 4px 4px 2px gray;
+        transition: transform 0.2s;
+        color: brown;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 2px white;
+
+        &:hover, &:focus {
+            background-color: khaki;
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 600px) {
+            font-size: 1.1rem;
+            width: 48%;
+        }
     }
 }

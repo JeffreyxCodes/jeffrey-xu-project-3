@@ -1,14 +1,11 @@
 .game-container {
-    width: 80vw;
-    max-width: 600px;
     height: 80vw;
-    max-height: 600px;
+    max-height: 500px;
     background-color: black;
-    margin: 20px auto;
+    margin: 5px auto 5px;
     position: relative;
 
     @media (max-width: 600px) {
-        width: 90vw;
         height: 90vw;
     }
 
