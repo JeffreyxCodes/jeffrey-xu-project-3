@@ -4,7 +4,9 @@
 
 @import './animation';
 
-@import './_title';
+@import './title';
+
+@import './intro';
 
 @import './stats';
 
@@ -12,11 +14,7 @@
 
 @import './grid';
 
-
-
-
-// arrow svg by: Dave Gandy
-
+// general styles
 body {
     height: 100vh;
     background-color: #7f5a83;

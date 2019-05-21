@@ -8,7 +8,7 @@ const game = {
     path: [],
     pathTiles: 0,
     player: [],
-    level: 0,
+    level: -99,
     score: 0,
     $level: $(`.level`),
     $score: $(`.score`),
@@ -79,19 +79,19 @@ const game = {
     drawTile: function (value, x, y) {
         if (value === 0) {
             this.$container.append(
-                `<div data-position="${x},${y}"></div>`
+                `<button data-position="${x},${y}"></button>`
             );
         } else if (value === 1) {
             this.$container.append(
-                `<div class="untrigger" data-position="${x},${y}"></div>`
+                `<button class="untrigger" data-position="${x},${y}"></button>`
             );
         } else if (value === 3) {
             this.$container.append(
-                `<div class="start-tile" data-position="${x},${y}"></div>`
+                `<button class="start-tile" data-position="${x},${y}"></button>`
             );
         } else {
             this.$container.append(
-                `<div class="end-tile" data-position="${x},${y}"></div>`
+                `<button class="end-tile" data-position="${x},${y}"></button>`
             );
         }
     },
@@ -148,7 +148,7 @@ const game = {
     // display the player
     drawPlayer: function () {
         $(`[data-position="${this.player.toString()}"]`).append(
-            `<div class="player" aria-label="player at position (${this.player.toString()})""></div>`
+            `<button class="player" aria-label="player at position (${this.player.toString()})""></button>`
         );
     },
 
@@ -179,14 +179,36 @@ const game = {
         }
     },
 
-    setSize: function() {
-
-    },
-
     // initialize all the click events
     initClick: function () {
+        // initialize the button to start the game
+        $(`.ready`).on(`click`, () => {
+            $(`.title`).animate({
+                fontSize: "1rem",
+                top: 0,
+            }, {
+                duration: 0,
+                complete: () => {
+                    $(`.title`).css("position", "static");
+                    $(`.intro-container`).slideUp();
+                }
+            })
+
+            $(`.back`).animate({
+                top: "-1.7rem"
+            }, {
+                duration: 0
+            });
+
+            $(`.ready`).remove();
+        });
+
+        $(`.continue`).on(`click`, () => {
+            $(`.intro-container`).slideUp();
+        });
+
         // initialize click event for the tiles
-        this.$container.on("click", "div", (e) => {
+        this.$container.on("click", "button", (e) => {
             if (e.target.className !== "player") {
                 let [eX, eY] = e.target.dataset.position.split(",");
                 [eX, eY] = [Number(eX), Number(eY)];
@@ -205,7 +227,7 @@ const game = {
         });
 
         // initialize click event for the virtual arrow keys
-        $(`section`).on(`click`, `button`, (e) => {
+        $(`#arrow-keys`).on(`click`, `button`, (e) => {
             // console.log(e);
             const [x, y] = this.player;
             if (e.currentTarget.className === "left") {
@@ -219,9 +241,16 @@ const game = {
             }
         })
 
+        // initialize the instructions button
+        $(`.instructions`).on(`click`, () => {
+            $(`.intro-container`).slideDown();
+            $(`.intro`).css("top", "20vh");
+            $(`.continue`).show();
+        });
+
         // initialize restart button
         $('.restart').on(`click`, () => {
-            this.newLevel(0, 0);
+            this.newLevel(-99, 0);
         });
     },
 
@@ -243,14 +272,16 @@ const game = {
 
     // initialize the game
     init: function () {
+        // setup the 2d array
         this.initGrid();
-
+        // setup the game elements
         this.setStartPosition(Math.floor(Math.random() * this.grid.length), Math.floor(Math.random() * this.grid.length));
         this.setPath();
         this.drawGrid();
         this.drawPlayer();
-
+        // initialize the click events
         this.initClick();
+        // initialize the arrow key events
         this.initArrowKeys();
     }
 };

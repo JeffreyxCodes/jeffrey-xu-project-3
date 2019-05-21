@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,10 +10,28 @@
     <link href="./styles/styles.css" rel="stylesheet">
     <link href="assets/favicon.png" rel="icon">
 </head>
+
 <body>
     <div class="title">
         <h1 class="back">No</h1>
         <h1 class="front">Looking Back</h1>
+    </div>
+
+    <div class="intro-container">
+        <div class="intro wrapper">
+            <h4>You have fallen, oh so very far - 99 floor underground kind of far. That's OK though, because you are
+                persistent and careful, the exact traits that you'll need for you to get back up to gound zero. Here's
+                what you need to know:</h4>
+            <h4>You are the <span class="blue">blue circle</span>, starting on the <span class="gray">gray tile</span>
+                and trying to reach the <span class="green">green tile</span>. <span class="orange">Orange tiles</span>
+                are available tiles and <span class="red">red tiles</span> are tiles already stepped on. You have to
+                step on all the orange tiles <span class="once">once and only once</span>, before you can step on the
+                green tile though.</h4>
+            <h4>You can move one tile at a time and move using the physical/virtual arrow keys or click/press on the
+                tiles. Ready?</h4>
+            <button class="ready flow-button">Let's Do This!</button>
+            <button class="continue flow-button">Continue</button>
+        </div>
     </div>
 
     <div class="stats wrapper">
@@ -22,35 +41,42 @@
 
     <div class="game-container wrapper" aria-label="game field with 100 tiles"></div>
 
-    <section class="arrow-keys wrapper">
-        <button class="left">
+    <section id="arrow-keys" class="wrapper">
+        <button class="left" aria-label="left arrow key" aria-labelledby="arrow-keys">
             <svg height="1792" viewBox="0 0 1792 1792" width="1792" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1664 896v128q0 53-32.5 90.5t-84.5 37.5h-704l293 294q38 36 38 90t-38 90l-75 76q-37 37-90 37-52 0-91-37l-651-652q-37-37-37-90 0-52 37-91l651-650q38-38 91-38 52 0 90 38l75 74q38 38 38 91t-38 91l-293 293h704q52 0 84.5 37.5t32.5 90.5z" />
+                <path
+                    d="M1664 896v128q0 53-32.5 90.5t-84.5 37.5h-704l293 294q38 36 38 90t-38 90l-75 76q-37 37-90 37-52 0-91-37l-651-652q-37-37-37-90 0-52 37-91l651-650q38-38 91-38 52 0 90 38l75 74q38 38 38 91t-38 91l-293 293h704q52 0 84.5 37.5t32.5 90.5z" />
             </svg>
         </button>
-        <button class="up">
+        <button class="up" aria-label="up arrow key" aria-labelledby="arrow-keys">
             <svg height="1792" viewBox="0 0 1792 1792" width="1792" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1675 971q0 51-37 90l-75 75q-38 38-91 38-54 0-90-38l-294-293v704q0 52-37.5 84.5t-90.5 32.5h-128q-53 0-90.5-32.5t-37.5-84.5v-704l-294 293q-36 38-90 38t-90-38l-75-75q-38-38-38-90 0-53 38-91l651-651q35-37 90-37 54 0 91 37l651 651q37 39 37 91z" />
+                <path
+                    d="M1675 971q0 51-37 90l-75 75q-38 38-91 38-54 0-90-38l-294-293v704q0 52-37.5 84.5t-90.5 32.5h-128q-53 0-90.5-32.5t-37.5-84.5v-704l-294 293q-36 38-90 38t-90-38l-75-75q-38-38-38-90 0-53 38-91l651-651q35-37 90-37 54 0 91 37l651 651q37 39 37 91z" />
             </svg>
         </button>
-        <button class="down">
+        <button class="down" aria-label="down arrow key" aria-labelledby="arrow-keys">
             <svg height="1792" viewBox="0 0 1792 1792" width="1792" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1675 832q0 53-37 90l-651 652q-39 37-91 37-53 0-90-37l-651-652q-38-36-38-90 0-53 38-91l74-75q39-37 91-37 53 0 90 37l294 294v-704q0-52 38-90t90-38h128q52 0 90 38t38 90v704l294-294q37-37 90-37 52 0 91 37l75 75q37 39 37 91z" />
+                <path
+                    d="M1675 832q0 53-37 90l-651 652q-39 37-91 37-53 0-90-37l-651-652q-38-36-38-90 0-53 38-91l74-75q39-37 91-37 53 0 90 37l294 294v-704q0-52 38-90t90-38h128q52 0 90 38t38 90v704l294-294q37-37 90-37 52 0 91 37l75 75q37 39 37 91z" />
             </svg>
         </button>
-        <button class="right">
+        <button class="right" aria-label="right arrow key" aria-labelledby="arrow-keys">
             <svg height="1792" viewBox="0 0 1792 1792" width="1792" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1600 960q0 54-37 91l-651 651q-39 37-91 37-51 0-90-37l-75-75q-38-38-38-91t38-91l293-293h-704q-52 0-84.5-37.5t-32.5-90.5v-128q0-53 32.5-90.5t84.5-37.5h704l-293-294q-38-36-38-90t38-90l75-75q38-38 90-38 53 0 91 38l651 651q37 35 37 90z" />
+                <path
+                    d="M1600 960q0 54-37 91l-651 651q-39 37-91 37-51 0-90-37l-75-75q-38-38-38-91t38-91l293-293h-704q-52 0-84.5-37.5t-32.5-90.5v-128q0-53 32.5-90.5t84.5-37.5h704l-293-294q-38-36-38-90t38-90l75-75q38-38 90-38 53 0 91 38l651 651q37 35 37 90z" />
             </svg>
         </button>
     </section>
 
-    <section class="other-controls wrapper">
-        <button class="Instructions">Instructions</button>
-        <button class="restart">Restart</button>
+    <section id="other-controls" class="wrapper">
+        <button class="instructions flow-button" aria-label="review the instructions"
+            aria-labelledby="other-controls">Instructions</button>
+        <button class="restart flow-button" aria-label="restart the game"
+            aria-labelledby="other-controls">Restart</button>
     </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="./scripts/script.js"></script>
 </body>
+
 </html>

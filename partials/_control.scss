@@ -1,10 +1,12 @@
-.arrow-keys {
+// styles for the arrow keys and buttons
+// *arrow svg by: Dave Gandy*
+#arrow-keys {
     margin: auto;
     display: flex;
     justify-content: center;
     display: none;
 
-    @media (max-width: 800px) {
+    @media (max-width: 600px) {
         display: flex;
     }
 
@@ -12,13 +14,13 @@
         width: 12%;
         min-width: 60px;
         padding: 5px;
-        margin: 10px;
+        margin: 0 10px 5px;
         border: none;
         border-radius: 20px;
         background: #70e1f5;  /* fallback for old browsers */
         background: -webkit-linear-gradient(to right, #ffd194, #70e1f5);  /* Chrome 10-25, Safari 5.1-6 */
         background: linear-gradient(to right, #ffd194, #70e1f5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        box-shadow: 4px 4px 2px gray;
+        box-shadow: 4px 4px 2px orange;
         transition: transform 0.2s;
 
         &:hover, &:focus {
@@ -30,35 +32,35 @@
     }
 }
 
-.other-controls {
+#other-controls {
     display: flex;
     justify-content: space-evenly;
     margin: auto;
+}
 
-    button {
-        display: block;
-        width: 45%;
-        margin: 5px auto;
-        padding: 5px;
-        font-size: 1.4rem;
-        font-weight: bold;
-        border: none;
-        border-radius: 25px;
-        background-color: darkgray;
-        box-shadow: 4px 4px 2px gray;
-        transition: transform 0.2s;
-        color: brown;
-        text-transform: uppercase;
-        text-shadow: 2px 2px 2px white;
+.flow-button {
+    display: block;
+    width: 45%;
+    margin: 5px auto;
+    padding: 5px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    background-color: darkgray;
+    box-shadow: 4px 4px 2px orange;
+    transition: transform 0.2s;
+    color: brown;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 2px white;
 
-        &:hover, &:focus {
-            background-color: khaki;
-            transform: scale(1.03);
-        }
+    &:hover, &:focus {
+        background-color: khaki;
+        transform: scale(1.03);
+    }
 
-        @media (max-width: 600px) {
-            font-size: 1.1rem;
-            width: 48%;
-        }
+    @media (max-width: 600px) {
+        font-size: 1.1rem;
+        width: 48%;
     }
 }
