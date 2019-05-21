@@ -79,19 +79,19 @@ const game = {
     drawTile: function (value, x, y) {
         if (value === 0) {
             this.$container.append(
-                `<button data-position="${x},${y}"></button>`
+                `<button data-position="${x},${y}" aria-label="invalid tile"></button>`
             );
         } else if (value === 1) {
             this.$container.append(
-                `<button class="untrigger" data-position="${x},${y}"></button>`
+                `<button class="untrigger" data-position="${x},${y}" aria-label="untriggered tile at position (${x},${y})"></button>`
             );
         } else if (value === 3) {
             this.$container.append(
-                `<button class="start-tile" data-position="${x},${y}"></button>`
+                `<button class="start-tile" data-position="${x},${y}" aria-label="start-tile at position (${x},${y})"></button>`
             );
         } else {
             this.$container.append(
-                `<button class="end-tile" data-position="${x},${y}"></button>`
+                `<button class="end-tile" data-position="${x},${y}" aria-label="end-tile at position (${x},${y})"></button>`
             );
         }
     },
@@ -107,7 +107,8 @@ const game = {
 
     // update the tile given the type and position
     updateTile: function (type, x, y) {
-        $(`[data-position="${x},${y}"]`).attr("class", type);
+        $(`[data-position="${x},${y}"]`).attr(`class`, type);
+        $(`[data-position="${x},${y}"]`).attr(`aria-label`, `${type} tile at position (${x},${y})`);
     },
 
     // update the grid
@@ -117,11 +118,11 @@ const game = {
         for (let i = 0; i < this.pathTiles; i++) {
             value = this.grid[this.path[i][0]][this.path[i][1]];
             if(value === 1) {
-                this.updateTile("untrigger", ...this.path[i]);
+                this.updateTile(`untrigger`, ...this.path[i]);
             } else if(value === 3) {
-                this.updateTile("start-tile", ...this.path[i]);
+                this.updateTile(`start-tile`, ...this.path[i]);
             } else if(value === 4){
-                this.updateTile("end-tile", ...this.path[i]);
+                this.updateTile(`end-tile`, ...this.path[i]);
             }
         }
     },
@@ -153,7 +154,7 @@ const game = {
     // display the player
     drawPlayer: function () {
         $(`[data-position="${this.player.toString()}"]`).append(
-            `<button class="player" aria-label="player at position (${this.player.toString()})""></button>`
+            `<button class="player" aria-label="player at position (${this.player.toString()})"></button>`
         );
     },
 
@@ -176,9 +177,9 @@ const game = {
     checkAdjacent: function(distance, eX, eY) {
         if (distance === 1) { // distance of 1 from player
             if (this.grid[eX][eY] === 1) { // step on an untrigger tile
-                this.movePlayer("triggered", eX, eY); 
+                this.movePlayer(`triggered`, eX, eY); 
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
-                this.movePlayer("end-tile", eX, eY);
+                this.movePlayer(`end-tile`, eX, eY);
                 this.newLevel(this.level + 1, this.score + this.path.length - 1);
             }
         }
@@ -189,18 +190,18 @@ const game = {
         // initialize the button to start the game
         $(`.ready`).on(`click`, () => {
             $(`.title`).animate({
-                fontSize: $(document).width() > 600 ? "1rem" : "0.85rem",
+                fontSize: $(document).width() > 600 ? `1rem` : `0.85rem`,
                 top: 2,
             }, {
                 duration: 1500,
                 complete: () => {
-                    $(`.title`).css("position", "relative");
+                    $(`.title`).css(`position`, `relative`);
                     $(`.intro-container`).slideUp();
                 }
             })
 
             $(`.back`).animate({
-                top: "-1.3rem"
+                top: `-1.3rem`
             }, {
                 duration: 1500
             });
@@ -217,9 +218,9 @@ const game = {
 
 
         // initialize click event for the tiles
-        this.$container.on("click", "button", (e) => {
-            if (e.target.className !== "player") {
-                let [eX, eY] = e.target.dataset.position.split(",");
+        this.$container.on(`click`, `button`, (e) => {
+            if (e.target.className !== `player`) {
+                let [eX, eY] = e.target.dataset.position.split(`,`);
                 [eX, eY] = [Number(eX), Number(eY)];
                 const [pX, pY] = this.player;
                 let direction = 0;
@@ -239,11 +240,11 @@ const game = {
         $(`#arrow-keys`).on(`click`, `button`, (e) => {
             // console.log(e);
             const [x, y] = this.player;
-            if (e.currentTarget.className === "left") {
+            if (e.currentTarget.className === `left`) {
                 this.checkAdjacent(1, x - 1, y);
-            } else if (e.currentTarget.className  === "up") {
+            } else if (e.currentTarget.className  === `up`) {
                 this.checkAdjacent(1, x, y - 1);
-            } else if (e.currentTarget.className  === "right") {
+            } else if (e.currentTarget.className  === `right`) {
                 this.checkAdjacent(1, x + 1, y);
             } else {
                 this.checkAdjacent(1, x, y + 1);
@@ -253,7 +254,7 @@ const game = {
         // initialize the instructions button
         $(`.instructions`).on(`click`, () => {
             $(`.intro-container`).slideDown();
-            $(`.intro`).css("top", "20vh");
+            $(`.intro`).css(`top`, `20vh`);
             $(`.continue`).show();
         });
 
