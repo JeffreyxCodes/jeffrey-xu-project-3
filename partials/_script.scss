@@ -1,13 +1,6 @@
 // styles for the initial intro
 .intro-container {
-    z-index: 2;
-    width: 100%;
-    height: 100vh;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-color: black;
-    color: white;
+    @include modal;
 
     .intro {
         position: relative;
@@ -51,5 +44,16 @@
         .continue {
             display: none;
         }
+    }
+}
+
+.win-container {
+    @include modal;
+    display: none;
+
+    .win {
+        position: relative;
+        top: 45vh;
+        font-size: 1.2rem;
     }
 }

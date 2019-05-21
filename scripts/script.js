@@ -134,6 +134,11 @@ const game = {
         this.score = score
         this.$score.text(this.score);
 
+        // win if level = 0, display win modal
+        if (level === 0) {
+            $(`.win-container`).slideDown();
+        }
+
         // reset the grid
         this.resetGrid();
 
@@ -185,11 +190,11 @@ const game = {
         $(`.ready`).on(`click`, () => {
             $(`.title`).animate({
                 fontSize: $(document).width() > 600 ? "1rem" : "0.85rem",
-                top: 0,
+                top: 2,
             }, {
-                duration: 0,
+                duration: 1500,
                 complete: () => {
-                    $(`.title`).css("position", "static");
+                    $(`.title`).css("position", "relative");
                     $(`.intro-container`).slideUp();
                 }
             })
@@ -197,15 +202,19 @@ const game = {
             $(`.back`).animate({
                 top: "-1.3rem"
             }, {
-                duration: 0
+                duration: 1500
             });
 
             $(`.ready`).remove();
         });
 
+        // initialize the button to continue the game
         $(`.continue`).on(`click`, () => {
             $(`.intro-container`).slideUp();
+            $(`.win-container`).slideUp();
         });
+
+
 
         // initialize click event for the tiles
         this.$container.on("click", "button", (e) => {
