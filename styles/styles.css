@@ -308,7 +308,7 @@ h3 {
   position: absolute;
   left: 0;
   right: 0;
-  top: 20vh;
+  top: 15vh;
 }
 
 @media (max-width: 600px) {
@@ -364,7 +364,7 @@ h3 {
 
 @media (max-width: 600px) {
   .intro-container .intro {
-    top: 30vh;
+    top: 22vh;
   }
 }
 
