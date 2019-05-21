@@ -184,7 +184,7 @@ const game = {
         // initialize the button to start the game
         $(`.ready`).on(`click`, () => {
             $(`.title`).animate({
-                fontSize: "1rem",
+                fontSize: $(document).width() > 600 ? "1rem" : "0.85rem",
                 top: 0,
             }, {
                 duration: 0,
@@ -195,7 +195,7 @@ const game = {
             })
 
             $(`.back`).animate({
-                top: "-1.7rem"
+                top: "-1.3rem"
             }, {
                 duration: 0
             });
