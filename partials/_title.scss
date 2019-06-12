@@ -1,6 +1,6 @@
 // styles for the game title
 .title {
-    width: 90%;
+    width: 99%;
     margin: auto;
 
     font-size: 2rem;
@@ -10,31 +10,44 @@
     right: 0;
     top: 15vh;
 
-    @media (max-width: 600px) {
-        font-size: 0.85rem;
-    }
+    h1 {
+        display: block;
+        font-size: 1em;
 
-    .back {
-        text-transform: uppercase;
-        color: white;
-        text-shadow: 0 0 10px gray;
-        font-size: 4.8em;
-        position: absolute;
-        top: -3rem;
-        left: 50%;
-        transform: translateX(-50%);
-    }
+        @media (max-width: 600px) {
+            font-size: 0.85rem;
+        }
 
-    .front {
-        text-align: center;
-        font-variant: small-caps;
-        font-size: 2.6em;
-        font-weight: bold;
-        background: #FF4E50;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to top, #F9D423, #FF4E50);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to top, #F9D423, #FF4E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        transform: rotate(-2deg);
+        span {
+            display: block;
+        }
+
+        .back {
+            text-transform: uppercase;
+            color: white;
+            text-shadow: 0 0 10px gray;
+            font-size: 4.8em;
+            position: absolute;
+            top: -3rem;
+            left: 50%;
+            transform: translateX(-50%);
+
+            @media (max-width: 600px) {
+                top: -1.3rem;
+            }
+        }
+
+        .front {
+            text-align: center;
+            font-variant: small-caps;
+            font-size: 2.6em;
+            font-weight: bold;
+            background: #FF4E50;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to top, #F9D423, #FF4E50);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to top, #F9D423, #FF4E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: rotate(-2deg);
+        }
     }
 }

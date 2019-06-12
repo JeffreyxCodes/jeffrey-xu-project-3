@@ -188,38 +188,38 @@ const game = {
     // initialize all the click events
     initClick: function () {
         // initialize the button to start the game
-        $(`.ready`).on(`click`, () => {
-            $(`.title`).animate({
-                fontSize: $(document).width() > 600 ? `1rem` : `0.85rem`,
+        $('.ready').on('click', () => {
+            $('.title').animate({
+                fontSize: $(document).width() > 600 ? '1rem' : '0.85rem',
                 top: 2,
             }, {
                 duration: 1500,
                 complete: () => {
-                    $(`.title`).css(`position`, `relative`);
-                    $(`.intro-container`).slideUp();
+                    $('.title').css('position', 'relative');
+                    $('.intro-container').slideUp();
                 }
             })
 
-            $(`.back`).animate({
-                top: `-1.3rem`
+            $('.back').animate({
+                top: '-1.3rem'
             }, {
                 duration: 1500
             });
 
-            $(`.ready`).remove();
+            $('.ready').remove();
         });
 
         // initialize the button to continue the game
-        $(`.continue`).on(`click`, () => {
-            $(`.intro-container`).slideUp();
-            $(`.win-container`).slideUp();
+        $('.continue').on('click', () => {
+            $('.intro-container').slideUp();
+            $('.win-container').slideUp();
         });
 
 
 
         // initialize click event for the tiles
-        this.$container.on(`click`, `button`, (e) => {
-            if (e.target.className !== `player`) {
+        this.$container.on('click', 'button', (e) => {
+            if (e.target.className !== 'player') {
                 let [eX, eY] = e.target.dataset.position.split(`,`);
                 [eX, eY] = [Number(eX), Number(eY)];
                 const [pX, pY] = this.player;

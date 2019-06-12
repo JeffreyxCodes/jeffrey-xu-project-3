@@ -278,7 +278,7 @@ h3 {
 }
 
 .title {
-  width: 90%;
+  width: 99%;
   margin: auto;
   font-size: 2rem;
   z-index: 3;
@@ -288,13 +288,22 @@ h3 {
   top: 15vh;
 }
 
+.title h1 {
+  display: block;
+  font-size: 1em;
+}
+
 @media (max-width: 600px) {
-  .title {
+  .title h1 {
     font-size: 0.85rem;
   }
 }
 
-.title .back {
+.title h1 span {
+  display: block;
+}
+
+.title h1 .back {
   text-transform: uppercase;
   color: white;
   text-shadow: 0 0 10px gray;
@@ -306,7 +315,13 @@ h3 {
           transform: translateX(-50%);
 }
 
-.title .front {
+@media (max-width: 600px) {
+  .title h1 .back {
+    top: -1.3rem;
+  }
+}
+
+.title h1 .front {
   text-align: center;
   font-variant: small-caps;
   font-size: 2.6em;
