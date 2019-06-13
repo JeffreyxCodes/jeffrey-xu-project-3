@@ -518,6 +518,7 @@ h3 {
 }
 
 .game-container {
+  --tile-size: 10%;
   height: 80vw;
   max-height: 500px;
   background-color: black;
@@ -534,9 +535,10 @@ h3 {
 .game-container button {
   background-color: black;
   border: solid 3px white;
-  width: 10%;
-  height: 10%;
+  width: var(--tile-size);
+  height: var(--tile-size);
   float: left;
+  padding: 0;
   position: relative;
 }
 
@@ -561,15 +563,37 @@ h3 {
 }
 
 .game-container button.player {
+  background-color: transparent;
+  border-color: transparent;
+  position: absolute;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.game-container button.player .player-sprite {
   width: 75%;
   height: 75%;
-  border-radius: 50%;
-  background-color: teal;
   position: absolute;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+  background-image: url("../assets/char-idle-down.png");
+  background-position: 0 0;
+  -webkit-animation: idle 1s steps(6) infinite;
+          animation: idle 1s steps(6) infinite;
+}
+
+@-webkit-keyframes idle {
+  100% {
+    background-position: -192px 0;
+  }
+}
+
+@keyframes idle {
+  100% {
+    background-position: -192px 0;
+  }
 }
 
 body {

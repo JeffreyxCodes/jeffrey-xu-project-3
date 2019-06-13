@@ -1,5 +1,6 @@
 // styles for the grid
 .game-container {
+    --tile-size: 10%;
     height: 80vw;
     max-height: 500px;
     background-color: black;
@@ -13,9 +14,10 @@
     button {
         background-color: black;
         border: solid 3px white;
-        width: 10%;
-        height: 10%;
+        width: var(--tile-size);
+        height: var(--tile-size);
         float: left;
+        padding: 0;
         position: relative;
 
         &:hover, &:focus {
@@ -39,15 +41,34 @@
         }
 
         &.player {
-            width: 75%;
-            height: 75%;
-            border-radius: 50%;
-            background-color: teal;
+            // background-color: teal;
+            background-color: transparent;
+            border-color: transparent;
 
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            transition: 0.2s;
+
+            .player-sprite {
+                width: 75%;
+                height: 75%;
+
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                // background-color: darkmagenta;
+                background-image: url("../assets/char-idle-down.png");
+                background-position: 0 0;
+                // background-size: 600%;
+                animation: idle 1s steps(6) infinite;
+            }
+
+            @keyframes idle {
+                100% {
+                    background-position: -192px 0;
+                }
+            }
         }
     }
 }

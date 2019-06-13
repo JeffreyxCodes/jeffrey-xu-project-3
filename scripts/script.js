@@ -5,14 +5,17 @@ const game = {
     // 2: triggered tile - firebrick
     // 3: start tile - gray
     // 4: end tile - green
+    tileSize: undefined,
     path: [],
     pathTiles: 0,
     player: [],
     level: -99,
     score: 0,
-    $level: $(`.level`),
-    $score: $(`.score`),
-    $container: $(`.game-container`),
+    moveEnded: true,
+    $level: $('.level'),
+    $score: $('.score'),
+    $container: $('.game-container'),
+    $player: undefined,
 
     // create the 2d array used for the grid
     initGrid: function () {
@@ -72,9 +75,24 @@ const game = {
                 this.drawTile(value, j, i);
             }
         }
+
+        // calculate and set the size of each tile
+        this.tileSize = this.$container.innerWidth() / 10;
+
+        // adds player onto grid
+        this.$container.append(
+            `<button 
+                class="player" 
+                data-x='${this.player[0]}'
+                data-y='${this.player[1]}'
+                style="left: ${this.player[0] * this.tileSize}px; top: ${this.player[1] * this.tileSize}px"
+                aria-label="player at position (${this.player.toString()})">
+                <div class="player-sprite"></div></button>`
+        );
+        this.$player = $('.player');
     },
 
-    // draw a tile given the type in terms of value and the tiles position
+    // draw a tile given the type in terms of value and the tiles position & find the width of a tile
     // - only used for the initial start of the app
     drawTile: function (value, x, y) {
         if (value === 0) {
@@ -112,23 +130,35 @@ const game = {
     },
 
     // update the grid
-    updateGrid: function() {
+    updateGrid: function () {
         // update grid for the next round with new values from path
         let value;
         for (let i = 0; i < this.pathTiles; i++) {
             value = this.grid[this.path[i][0]][this.path[i][1]];
-            if(value === 1) {
+            if (value === 1) {
                 this.updateTile(`untrigger`, ...this.path[i]);
-            } else if(value === 3) {
+            } else if (value === 3) {
                 this.updateTile(`start-tile`, ...this.path[i]);
-            } else if(value === 4){
+            } else if (value === 4) {
                 this.updateTile(`end-tile`, ...this.path[i]);
             }
         }
+
+        // adds player onto grid
+        this.$container.append(
+            `<button 
+                class="player" 
+                data-x='${this.player[0]}'
+                data-y='${this.player[1]}'
+                style="left: ${this.player[0] * this.tileSize}px; top: ${this.player[1] * this.tileSize}px"
+                aria-label="player at position (${this.player.toString()})">
+                <div class="player-sprite"></div></button>`
+        );
+        this.$player = $('.player');
     },
 
     // setup for a new level
-    newLevel: function(level, score) {
+    newLevel: function (level, score) {
         // set the level and score
         this.level = level;
         this.$level.text(this.level);
@@ -146,16 +176,25 @@ const game = {
         // setup the path, grid, and player on the grid
         this.setStartPosition(Math.floor(Math.random() * this.grid.length), Math.floor(Math.random() * this.grid.length));
         this.setPath();
-        this.updateGrid();
         this.removePlayer();
+        this.updateGrid();
         this.drawPlayer();
     },
 
     // display the player
-    drawPlayer: function () {
-        $(`[data-position="${this.player.toString()}"]`).append(
-            `<button class="player" aria-label="player at position (${this.player.toString()})"></button>`
-        );
+    drawPlayer: function (xM, yM) {
+        // console.log(this.player, xM, yM);
+        this.$player.css({
+            // "left": `${this.$player[0].offsetLeft + this.tileSize * xM}px`,
+            // "top": `${this.$player[0].offsetTop + this.tileSize * yM}px`
+            "left": `${this.tileSize * (this.player[0])}px`,
+            "top": `${this.tileSize * (this.player[1])}px`
+        });
+        // console.log(this.tileSize * (this.player[0]), this.tileSize * (this.player[1]));
+        // need to change the data and aria attributes as well
+
+        // console.log(this.$player[0].offsetLeft, this.$player[0].offsetTop);
+        // console.log(this.$player);
     },
 
     // remove the player
@@ -164,22 +203,28 @@ const game = {
     },
 
     // move the player and update values accordingly
-    movePlayer: function (type, x, y) {
-        this.pathTiles--;
-        this.grid[x][y] = 2;
-        this.player = [x, y];
-        this.removePlayer();
-        this.updateTile(type, x, y);
-        this.drawPlayer();
+    movePlayer: function (type, x, y, xM, yM) {
+        if (this.moveEnded) { // checks if previous move have finished first
+            this.moveEnded = false;
+
+            this.pathTiles--;
+            this.grid[x][y] = 2;
+            this.player = [x, y];
+            this.updateTile(type, x, y);
+            this.drawPlayer(xM, yM);
+        }
     },
 
-    // check if there's an adjacent tile
-    checkAdjacent: function(distance, eX, eY) {
+    // check if there's an available adjacent tile and move player if there is;
+    // xM & yM are mulipliers that can be -1, 0, or 1 indicating direction and is to be pass to movePlayer;
+    // xM = -1 means move left, xM = 0 means no row movement, xM = 1 means move right;
+    // yM = -1 means move down, yM = 0 means no column movement, yM = 1 means move up;
+    checkAdjacent: function (distance, eX, eY, xM, yM) {
         if (distance === 1) { // distance of 1 from player
             if (this.grid[eX][eY] === 1) { // step on an untrigger tile
-                this.movePlayer(`triggered`, eX, eY); 
+                this.movePlayer(`triggered`, eX, eY, xM, yM);
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
-                this.movePlayer(`end-tile`, eX, eY);
+                this.movePlayer(`end-tile`, eX, eY, xM, yM);
                 this.newLevel(this.level + 1, this.score + this.path.length - 1);
             }
         }
@@ -193,18 +238,18 @@ const game = {
                 fontSize: $(document).width() > 600 ? '1rem' : '0.85rem',
                 top: 2,
             }, {
-                duration: 1500,
-                complete: () => {
-                    $('.title').css('position', 'relative');
-                    $('.intro-container').slideUp();
-                }
-            })
+                    duration: 0, // 1500
+                    complete: () => {
+                        $('.title').css('position', 'relative');
+                        $('.intro-container').slideUp();
+                    }
+                })
 
             $('.back').animate({
                 top: '-1.3rem'
             }, {
-                duration: 1500
-            });
+                    duration: 0 //1500
+                });
 
             $('.ready').remove();
         });
@@ -214,8 +259,6 @@ const game = {
             $('.intro-container').slideUp();
             $('.win-container').slideUp();
         });
-
-
 
         // initialize click event for the tiles
         this.$container.on('click', 'button', (e) => {
@@ -238,13 +281,12 @@ const game = {
 
         // initialize click event for the virtual arrow keys
         $(`#arrow-keys`).on(`click`, `button`, (e) => {
-            // console.log(e);
             const [x, y] = this.player;
             if (e.currentTarget.className === `left`) {
                 this.checkAdjacent(1, x - 1, y);
-            } else if (e.currentTarget.className  === `up`) {
+            } else if (e.currentTarget.className === `up`) {
                 this.checkAdjacent(1, x, y - 1);
-            } else if (e.currentTarget.className  === `right`) {
+            } else if (e.currentTarget.className === `right`) {
                 this.checkAdjacent(1, x + 1, y);
             } else {
                 this.checkAdjacent(1, x, y + 1);
@@ -269,14 +311,29 @@ const game = {
         $(document).keyup((e) => {
             const [x, y] = this.player;
             if (e.keyCode === 37 && x > 0) { // left
-                this.checkAdjacent(1, x - 1, y);
-            } else if(e.keyCode === 38 && y > 0) { // up
-                this.checkAdjacent(1, x, y - 1);
+                this.checkAdjacent(1, x - 1, y, -1, 0);
+            } else if (e.keyCode === 38 && y > 0) { // up
+                this.checkAdjacent(1, x, y - 1, 0, -1);
             } else if (e.keyCode === 39 && x < this.grid.length - 1) { // right
-                this.checkAdjacent(1, x + 1, y);
+                this.checkAdjacent(1, x + 1, y, 1, 0);
             } else if (e.keyCode === 40 && y < this.grid.length - 1) { // down
-                this.checkAdjacent(1, x, y + 1);
+                this.checkAdjacent(1, x, y + 1, 0, 1);
             }
+        });
+    },
+
+    // initialize the transitionend event listener to check if the player has finished moving
+    initTransitionEnd: function () {
+        $(document).on("transitionend", () => {
+            this.moveEnded = true;
+        });
+    },
+
+    // initialize the resize event listener to resize tile size
+    initResize: function () {
+        $(window).resize(() => {
+            this.tileSize = this.$container.innerWidth() / 10;
+            this.drawPlayer();
         });
     },
 
@@ -288,7 +345,8 @@ const game = {
         this.setStartPosition(Math.floor(Math.random() * this.grid.length), Math.floor(Math.random() * this.grid.length));
         this.setPath();
         this.drawGrid();
-        this.drawPlayer();
+        this.initTransitionEnd();
+        this.initResize();
         // initialize the click events
         this.initClick();
         // initialize the arrow key events
@@ -296,6 +354,6 @@ const game = {
     }
 };
 
-$(function() {
+$(function () {
     game.init();
 });
