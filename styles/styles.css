@@ -571,6 +571,7 @@ h3 {
 }
 
 .game-container button.player .player-sprite {
+  --sprite-set: 0px;
   width: 75%;
   height: 75%;
   position: absolute;
@@ -578,21 +579,21 @@ h3 {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  background-image: url("../assets/char-idle-down.png");
-  background-position: 0 0;
-  -webkit-animation: idle 1s steps(6) infinite;
-          animation: idle 1s steps(6) infinite;
+  background-image: url("../assets/char-sprite-sheet.png");
+  background-position: left 0 top var(--sprite-set);
+  -webkit-animation: play 0.5s steps(6) infinite;
+          animation: play 0.5s steps(6) infinite;
 }
 
-@-webkit-keyframes idle {
+@-webkit-keyframes play {
   100% {
-    background-position: -192px 0;
+    background-position: left 192px top var(--sprite-set);
   }
 }
 
-@keyframes idle {
+@keyframes play {
   100% {
-    background-position: -192px 0;
+    background-position: left 192px top var(--sprite-set);
   }
 }
 
