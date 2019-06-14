@@ -5,7 +5,6 @@ const game = {
     // 2: triggered tile - firebrick
     // 3: start tile - gray
     // 4: end tile - green
-    tileSize: undefined,
     path: [],
     pathTiles: 0,
     player: [],
@@ -81,21 +80,10 @@ const game = {
         // calculate and set the size of each tile
         this.tileSize = this.$container.innerWidth() / 10;
 
-        // adds player onto grid
-        this.$container.append(
-            `<button 
-                class="player" 
-                data-x='${this.player[0]}'
-                data-y='${this.player[1]}'
-                style="left: ${this.player[0] * this.tileSize}px; top: ${this.player[1] * this.tileSize}px"
-                aria-label="player at position (${this.player.toString()})">
-                <div class="player-sprite"></div></button>`
-        );
-        this.$player = $('.player');
-        this.$sprite = $('.player-sprite');
+        this.addPlayer();
     },
 
-    // draw a tile given the type in terms of value and the tiles position & find the width of a tile
+    // draw a tile given the type in terms of value and the tiles position
     // - only used for the initial start of the app
     drawTile: function (value, x, y) {
         if (value === 0) {
@@ -133,36 +121,25 @@ const game = {
     },
 
     // update the grid
-    updateGrid: function () {
+    updateGrid: function() {
         // update grid for the next round with new values from path
         let value;
         for (let i = 0; i < this.pathTiles; i++) {
             value = this.grid[this.path[i][0]][this.path[i][1]];
-            if (value === 1) {
+            if(value === 1) {
                 this.updateTile(`untrigger`, ...this.path[i]);
-            } else if (value === 3) {
+            } else if(value === 3) {
                 this.updateTile(`start-tile`, ...this.path[i]);
-            } else if (value === 4) {
+            } else if(value === 4){
                 this.updateTile(`end-tile`, ...this.path[i]);
             }
         }
 
-        // adds player onto grid
-        this.$container.append(
-            `<button 
-                class="player" 
-                data-x='${this.player[0]}'
-                data-y='${this.player[1]}'
-                style="left: ${this.player[0] * this.tileSize}px; top: ${this.player[1] * this.tileSize}px"
-                aria-label="player at position (${this.player.toString()})">
-                <div class="player-sprite"></div></button>`
-        );
-        this.$player = $('.player');
-        this.$sprite = $('.player-sprite');
+        this.addPlayer();
     },
 
     // setup for a new level
-    newLevel: function (level, score) {
+    newLevel: function(level, score) {
         // set the level and score
         this.level = level;
         this.$level.text(this.level);
@@ -226,6 +203,21 @@ const game = {
         }
     },
 
+    // adds player onto grid
+    addPlayer: function() {
+        this.$container.append(
+            `<button 
+                class="player" 
+                data-x='${this.player[0]}'
+                data-y='${this.player[1]}'
+                style="left: ${this.player[0] * this.tileSize}px; top: ${this.player[1] * this.tileSize}px"
+                aria-label="player at position (${this.player.toString()})">
+                <div class="player-sprite"></div></button>`
+        );
+        this.$player = $('.player');
+        this.$sprite = $('.player-sprite');
+    },
+
     // remove the player
     removePlayer: function () {
         $(`.player`).remove();
@@ -239,18 +231,18 @@ const game = {
                 fontSize: $(document).width() > 600 ? '1rem' : '0.85rem',
                 top: 2,
             }, {
-                    duration: 0, // 1500
-                    complete: () => {
-                        $('.title').css('position', 'relative');
-                        $('.intro-container').slideUp();
-                    }
-                })
+                duration: 0, //1500
+                complete: () => {
+                    $('.title').css('position', 'relative');
+                    $('.intro-container').slideUp();
+                }
+            })
 
             $('.back').animate({
                 top: '-1.3rem'
             }, {
-                    duration: 0 //1500
-                });
+                duration: 0 //1500
+            });
 
             $('.ready').remove();
         });
@@ -260,6 +252,8 @@ const game = {
             $('.intro-container').slideUp();
             $('.win-container').slideUp();
         });
+
+
 
         // initialize click event for the tiles
         this.$container.on('click', 'button', (e) => {
@@ -285,6 +279,7 @@ const game = {
 
         // initialize click event for the virtual arrow keys
         $(`#arrow-keys`).on(`click`, `button`, (e) => {
+            // console.log(e);
             const [x, y] = this.player;
             if (e.currentTarget.className === `left`) {
                 this.checkAdjacent(1, x - 1, y, -240);
@@ -365,6 +360,6 @@ const game = {
     }
 };
 
-$(function () {
+$(function() {
     game.init();
 });

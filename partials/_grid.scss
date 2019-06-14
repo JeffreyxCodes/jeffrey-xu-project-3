@@ -1,6 +1,5 @@
 // styles for the grid
 .game-container {
-    --tile-size: 10%;
     height: 80vw;
     max-height: 500px;
     background-color: black;
@@ -14,10 +13,9 @@
     button {
         background-color: black;
         border: solid 3px white;
-        width: var(--tile-size);
-        height: var(--tile-size);
+        width: 10%;
+        height: 10%;
         float: left;
-        padding: 0;
         position: relative;
 
         &:hover, &:focus {
