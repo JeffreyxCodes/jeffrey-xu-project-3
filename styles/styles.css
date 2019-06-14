@@ -561,15 +561,39 @@ h3 {
 }
 
 .game-container button.player {
+  background-color: transparent;
+  border-color: transparent;
+  position: absolute;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.game-container button.player .player-sprite {
+  --sprite-set: 0px;
   width: 75%;
-  height: 75%;
-  border-radius: 50%;
-  background-color: teal;
+  height: 90%;
   position: absolute;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+  background-image: url("../assets/char-sprite-sheet.png");
+  background-size: 600%;
+  background-position: left 0 top var(--sprite-set);
+  -webkit-animation: play 0.5s steps(6) infinite;
+          animation: play 0.5s steps(6) infinite;
+}
+
+@-webkit-keyframes play {
+  100% {
+    background-position: left 600% top var(--sprite-set);
+  }
+}
+
+@keyframes play {
+  100% {
+    background-position: left 600% top var(--sprite-set);
+  }
 }
 
 body {
