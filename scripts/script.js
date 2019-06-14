@@ -20,6 +20,7 @@ const game = {
     $player: undefined,
     $sprite: undefined,
     // audio
+    $theme: $('#theme')[0],
     $button: $('#button')[0],
     $ladder: $('#ladder')[0],
     $trigger: $('#trigger')[0],
@@ -124,8 +125,8 @@ const game = {
 
     // update the tile given the type and position
     updateTile: function (type, x, y) {
-        $(`[data-position="${x},${y}"]`).attr(`class`, type);
-        $(`[data-position="${x},${y}"]`).attr(`aria-label`, `${type} tile at position (${x},${y})`);
+        $(`[data-position="${x},${y}"]`).attr('class', type);
+        $(`[data-position="${x},${y}"]`).attr('aria-label', `${type} tile at position (${x},${y})`);
     },
 
     // update the grid
@@ -135,11 +136,11 @@ const game = {
         for (let i = 0; i < this.pathTiles; i++) {
             value = this.grid[this.path[i][0]][this.path[i][1]];
             if(value === 1) {
-                this.updateTile(`untrigger`, ...this.path[i]);
+                this.updateTile('untrigger', ...this.path[i]);
             } else if(value === 3) {
-                this.updateTile(`start-tile`, ...this.path[i]);
+                this.updateTile('start-tile', ...this.path[i]);
             } else if(value === 4){
-                this.updateTile(`end-tile`, ...this.path[i]);
+                this.updateTile('end-tile', ...this.path[i]);
             }
         }
 
@@ -156,7 +157,7 @@ const game = {
 
         // win if level = 0, display win modal
         if (level === 0) {
-            $(`.win-container`).slideDown();
+            $('.win-container').slideDown();
         }
 
         // reset the grid
@@ -169,7 +170,7 @@ const game = {
         this.updateGrid();
 
         // reset the gate to be closed
-        this.$container[0].style.setProperty("--end-tile-sprite", "0 0");
+        this.$container[0].style.setProperty('--end-tile-sprite', '0 0');
 
         // allow player to move
         this.moveEnded = true;
@@ -178,7 +179,7 @@ const game = {
     // animate the player
     drawPlayer: function () {
         // change sprite sheet location to reflect direction
-        this.$sprite[0].style.setProperty("--sprite-set", `${this.direction}%`);
+        this.$sprite[0].style.setProperty('--sprite-set', `${this.direction}%`);
 
         this.$player.css({
             "left": `${this.tileSize * (this.player[0])}px`,
@@ -193,7 +194,7 @@ const game = {
 
             this.pathTiles--;
             if (this.pathTiles === 2) { // gate is open when all tiles have been stepped on
-                this.$container[0].style.setProperty("--end-tile-sprite", "left 0 top 100%");
+                this.$container[0].style.setProperty('--end-tile-sprite', 'left 0 top 100%');
                 this.$unlock.play();
             } else if (this.pathTiles > 2) { // place trigger sound if it's just a normal tile
                 this.$trigger.play();
@@ -215,9 +216,9 @@ const game = {
             this.direction = direction;
 
             if (this.grid[eX][eY] === 1) { // step on an untrigger tile
-                this.movePlayer(`triggered`, eX, eY);
+                this.movePlayer('triggered', eX, eY);
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
-                this.movePlayer(`end-tile`, eX, eY);
+                this.movePlayer('end-tile', eX, eY);
                 this.$ladder.play();
                 this.$ladder.playbackRate = 1.5;
             } 
@@ -241,13 +242,18 @@ const game = {
 
     // remove the player
     removePlayer: function () {
-        $(`.player`).remove();
+        $('.player').remove();
     },
 
     // initialize all the click events
     initClick: function () {
         // initialize the button to start the game
         $('.ready').on('click', () => {
+            // start theme
+            this.$theme.play();
+            this.$theme.volume = 0.25;
+
+            // button sound effect
             this.$button.play();
             this.$button.currentTime = 0;
             $('.title').animate({
@@ -278,6 +284,16 @@ const game = {
             $('.win-container').slideUp();
         });
 
+        $('.music').on('click', () => {
+            this.$button.play();
+            this.$button.currentTime = 0;
+            if (this.$theme.paused) {
+                this.$theme.play();
+            } else {
+                this.$theme.pause();
+            }
+        });
+
         // initialize click event for the tiles
         this.$container.on('click', 'button', (e) => {
             if (e.target.className !== 'player') {
@@ -301,13 +317,13 @@ const game = {
         });
 
         // initialize click event for the virtual arrow keys
-        $(`#arrow-keys`).on(`click`, `button`, (e) => {
+        $('#arrow-keys').on('click', 'button', (e) => {
             const [x, y] = this.player;
-            if (e.currentTarget.className === `left`) {
+            if (e.currentTarget.className === 'left') {
                 this.checkAdjacent(1, x - 1, y, this.spriteSetMultiplier * 6);
-            } else if (e.currentTarget.className === `up`) {
+            } else if (e.currentTarget.className === 'up') {
                 this.checkAdjacent(1, x, y - 1, this.spriteSetMultiplier * 5);
-            } else if (e.currentTarget.className === `right`) {
+            } else if (e.currentTarget.className === 'right') {
                 this.checkAdjacent(1, x + 1, y, 100);
             } else {
                 this.checkAdjacent(1, x, y + 1, this.spriteSetMultiplier * 4);
@@ -315,16 +331,17 @@ const game = {
         })
 
         // initialize the instructions button
-        $(`.instructions`).on(`click`, () => {
+        $('.instructions').on('click', () => {
             this.$button.play();
             this.$button.currentTime = 0;
-            $(`.intro-container`).slideDown();
-            $(`.intro`).css(`top`, `20vh`);
-            $(`.continue`).show();
+            $('.intro-container').slideDown();
+            $('.intro').css('top', '20vh');
+            $('.continue').show();
+            $('.music').show();
         });
 
         // initialize restart button
-        $('.restart').on(`click`, () => {
+        $('.restart').on('click', () => {
             this.$button.play();
             this.$button.currentTime = 0;
             this.newLevel(-99, 0);
@@ -356,11 +373,11 @@ const game = {
 
     // initialize the transitionend event listener to check if the player has finished moving
     initTransitionEnd: function () {
-        $(document).on("transitionend", () => {
+        $(document).on('transitionend', () => {
             if (!this.moveEnded) { // roughly check if the transition is from player movement
                 this.moveEnded = true;
                 this.direction = this.direction - this.spriteSetMultiplier * 4;
-                this.$sprite[0].style.setProperty("--sprite-set", `${this.direction}%`);
+                this.$sprite[0].style.setProperty('--sprite-set', `${this.direction}%`);
             }
         });
     },

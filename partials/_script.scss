@@ -36,12 +36,14 @@
         }
 
         .once {
+            color: orange;
             text-decoration: underline;
             font-style: italic;
             font-weight: bold;
         }
 
-        .continue {
+        .continue,
+        .music {
             display: none;
         }
     }
