@@ -41,6 +41,7 @@
         }
 
         &.player {
+            // background-color: teal;
             background-color: transparent;
             border-color: transparent;
 
@@ -48,26 +49,24 @@
             transition: 0.2s;
 
             .player-sprite {
-                // dimension of the sprite
-                --sprite-set: 0px;
                 width: 75%;
                 height: 75%;
 
-                // center the sprite
                 position: absolute;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
 
-                // sprite animation related
-                background-image: url("../assets/char-sprite-sheet.png");
-                background-position: left 0 top var(--sprite-set);
-                animation: play 0.5s steps(6) infinite;
+                // background-color: darkmagenta;
+                background-image: url("../assets/char-idle-down.png");
+                background-position: 0 0;
+                // background-size: 600%;
+                animation: idle 1s steps(6) infinite;
             }
 
-            @keyframes play {
+            @keyframes idle {
                 100% {
-                    background-position: left 192px top var(--sprite-set);
+                    background-position: -192px 0;
                 }
             }
         }

@@ -11,13 +11,11 @@ const game = {
     player: [],
     level: -99,
     score: 0,
-    direction: 0,
     moveEnded: true,
     $level: $('.level'),
     $score: $('.score'),
     $container: $('.game-container'),
     $player: undefined,
-    $sprite: undefined,
 
     // create the 2d array used for the grid
     initGrid: function () {
@@ -92,7 +90,6 @@ const game = {
                 <div class="player-sprite"></div></button>`
         );
         this.$player = $('.player');
-        this.$sprite = $('.player-sprite');
     },
 
     // draw a tile given the type in terms of value and the tiles position & find the width of a tile
@@ -158,7 +155,6 @@ const game = {
                 <div class="player-sprite"></div></button>`
         );
         this.$player = $('.player');
-        this.$sprite = $('.player-sprite');
     },
 
     // setup for a new level
@@ -182,25 +178,32 @@ const game = {
         this.setPath();
         this.removePlayer();
         this.updateGrid();
-
-        // allow player to move
-        this.moveEnded = true;
-
+        this.drawPlayer();
     },
 
-    // animate the player
-    drawPlayer: function () {
-        // change sprite sheet location to reflect direction
-        this.$sprite[0].style.setProperty("--sprite-set", `${this.direction}px`);
-
+    // display the player
+    drawPlayer: function (xM, yM) {
+        // console.log(this.player, xM, yM);
         this.$player.css({
+            // "left": `${this.$player[0].offsetLeft + this.tileSize * xM}px`,
+            // "top": `${this.$player[0].offsetTop + this.tileSize * yM}px`
             "left": `${this.tileSize * (this.player[0])}px`,
             "top": `${this.tileSize * (this.player[1])}px`
         });
+        // console.log(this.tileSize * (this.player[0]), this.tileSize * (this.player[1]));
+        // need to change the data and aria attributes as well
+
+        // console.log(this.$player[0].offsetLeft, this.$player[0].offsetTop);
+        // console.log(this.$player);
+    },
+
+    // remove the player
+    removePlayer: function () {
+        $(`.player`).remove();
     },
 
     // move the player and update values accordingly
-    movePlayer: function (type, x, y) {
+    movePlayer: function (type, x, y, xM, yM) {
         if (this.moveEnded) { // checks if previous move have finished first
             this.moveEnded = false;
 
@@ -208,27 +211,23 @@ const game = {
             this.grid[x][y] = 2;
             this.player = [x, y];
             this.updateTile(type, x, y);
-            this.drawPlayer();
+            this.drawPlayer(xM, yM);
         }
     },
 
     // check if there's an available adjacent tile and move player if there is;
-    checkAdjacent: function (distance, eX, eY, direction) {
+    // xM & yM are mulipliers that can be -1, 0, or 1 indicating direction and is to be pass to movePlayer;
+    // xM = -1 means move left, xM = 0 means no row movement, xM = 1 means move right;
+    // yM = -1 means move down, yM = 0 means no column movement, yM = 1 means move up;
+    checkAdjacent: function (distance, eX, eY, xM, yM) {
         if (distance === 1) { // distance of 1 from player
-            this.direction = direction;
-
             if (this.grid[eX][eY] === 1) { // step on an untrigger tile
-                this.movePlayer(`triggered`, eX, eY);
+                this.movePlayer(`triggered`, eX, eY, xM, yM);
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
-                this.movePlayer(`end-tile`, eX, eY);
+                this.movePlayer(`end-tile`, eX, eY, xM, yM);
                 this.newLevel(this.level + 1, this.score + this.path.length - 1);
             }
         }
-    },
-
-    // remove the player
-    removePlayer: function () {
-        $(`.player`).remove();
     },
 
     // initialize all the click events
@@ -267,18 +266,15 @@ const game = {
                 let [eX, eY] = e.target.dataset.position.split(`,`);
                 [eX, eY] = [Number(eX), Number(eY)];
                 const [pX, pY] = this.player;
-                let distance = 0;
-                let direction;
+                let direction = 0;
 
                 // check if the clicked tile is adjacent to the player
                 if (eX === pX) { // same row as player
-                    distance = eY - pY;
-                    direction = distance > 0 ? -160 : -200
-                    this.checkAdjacent(Math.abs(distance), eX, eY, direction);
+                    direction = Math.abs(eY - pY);
+                    this.checkAdjacent(direction, eX, eY);
                 } else if (eY === pY) { // same column as player
-                    distance = eX - pX;
-                    direction = distance > 0 ? -280 : -240
-                    this.checkAdjacent(Math.abs(distance), eX, eY, direction);
+                    direction = Math.abs(eX - pX);
+                    this.checkAdjacent(direction, eX, eY);
                 }
             }
         });
@@ -287,13 +283,13 @@ const game = {
         $(`#arrow-keys`).on(`click`, `button`, (e) => {
             const [x, y] = this.player;
             if (e.currentTarget.className === `left`) {
-                this.checkAdjacent(1, x - 1, y, -240);
+                this.checkAdjacent(1, x - 1, y);
             } else if (e.currentTarget.className === `up`) {
-                this.checkAdjacent(1, x, y - 1, -200);
+                this.checkAdjacent(1, x, y - 1);
             } else if (e.currentTarget.className === `right`) {
-                this.checkAdjacent(1, x + 1, y, -280);
+                this.checkAdjacent(1, x + 1, y);
             } else {
-                this.checkAdjacent(1, x, y + 1, -160);
+                this.checkAdjacent(1, x, y + 1);
             }
         })
 
@@ -315,13 +311,13 @@ const game = {
         $(document).keyup((e) => {
             const [x, y] = this.player;
             if (e.keyCode === 37 && x > 0) { // left
-                this.checkAdjacent(1, x - 1, y, -240);
+                this.checkAdjacent(1, x - 1, y, -1, 0);
             } else if (e.keyCode === 38 && y > 0) { // up
-                this.checkAdjacent(1, x, y - 1, -200);
+                this.checkAdjacent(1, x, y - 1, 0, -1);
             } else if (e.keyCode === 39 && x < this.grid.length - 1) { // right
-                this.checkAdjacent(1, x + 1, y, -280);
+                this.checkAdjacent(1, x + 1, y, 1, 0);
             } else if (e.keyCode === 40 && y < this.grid.length - 1) { // down
-                this.checkAdjacent(1, x, y + 1, -160);
+                this.checkAdjacent(1, x, y + 1, 0, 1);
             }
         });
     },
@@ -329,11 +325,7 @@ const game = {
     // initialize the transitionend event listener to check if the player has finished moving
     initTransitionEnd: function () {
         $(document).on("transitionend", () => {
-            if (!this.moveEnded) { // roughly check if the transition is from player movement
-                this.moveEnded = true;
-                this.direction = this.direction + 160;
-                this.$sprite[0].style.setProperty("--sprite-set", `${this.direction}px`);
-            }
+            this.moveEnded = true;
         });
     },
 
@@ -353,11 +345,8 @@ const game = {
         this.setStartPosition(Math.floor(Math.random() * this.grid.length), Math.floor(Math.random() * this.grid.length));
         this.setPath();
         this.drawGrid();
-
-        // initialize event listener for transitionend and resize
         this.initTransitionEnd();
         this.initResize();
-
         // initialize the click events
         this.initClick();
         // initialize the arrow key events
