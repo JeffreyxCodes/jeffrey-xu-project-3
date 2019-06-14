@@ -1,5 +1,9 @@
 // styles for the grid
+// character sprite created by Vryell, source: https://vryell.itch.io/tiny-adventure-pack
+// floor tiles created by Stealthix; source: https://stealthix.itch.io/32-x-32-dungeon-assets
+// gate tiles created by lobsovilth; source: https://lobsovilth.itch.io/simple-dungeon-crawler-16x16-pixel-pack
 .game-container {
+    --end-tile-url: url("../assets/close.png");
     height: 80vw;
     max-height: 500px;
     background-color: black;
@@ -12,7 +16,9 @@
 
     button {
         background-color: black;
-        border: solid 3px white;
+        background-image: url("../assets/no-go.png");
+        background-size: 100%;
+        border: solid 1px white;
         width: 10%;
         height: 10%;
         float: left;
@@ -24,22 +30,33 @@
 
         &.untrigger {
             background-color: orange;
+            background-image: url("../assets/untrigger2.png");
         }
 
         &.triggered {
             background-color: firebrick;
+            background-image: url("../assets/triggered2.png");
         }
 
         &.start-tile {
             background-color: gray;
+            background-image: url("../assets/start.png");
         }
 
         &.end-tile {
             background-color: green;
+            background-image: var(--end-tile-url);
+        }
+
+        @keyframes spikes {
+            100% {
+                background-position: left 1000% top 0;
+            }
         }
 
         &.player {
             background-color: transparent;
+            background-image: none;
             border-color: transparent;
 
             position: absolute;
