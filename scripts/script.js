@@ -1,10 +1,11 @@
 const game = {
     grid: [],
-    // 0: field tile - black
-    // 1: untrigger tile - orange
-    // 2: triggered tile - firebrick
-    // 3: start tile - gray
-    // 4: end tile - green
+    // grid value meanings:
+    // 0: field tile - black - spikes
+    // 1: untrigger tile - orange - untrigger button
+    // 2: triggered tile - firebrick - triggered button
+    // 3: start tile - gray - down ladder
+    // 4: end tile - green - up ladder with gate
     path: [],
     pathTiles: 0,
     player: [],
@@ -18,6 +19,12 @@ const game = {
     $container: $('.game-container'),
     $player: undefined,
     $sprite: undefined,
+    // audio
+    $button: $('#button')[0],
+    $ladder: $('#ladder')[0],
+    $trigger: $('#trigger')[0],
+    $unlock: $('#unlock')[0],
+
 
     // create the 2d array used for the grid
     initGrid: function () {
@@ -162,11 +169,10 @@ const game = {
         this.updateGrid();
 
         // reset the gate to be closed
-        this.$container[0].style.setProperty("--end-tile-url", "url('../assets/close.png')");
+        this.$container[0].style.setProperty("--end-tile-sprite", "0 0");
 
         // allow player to move
         this.moveEnded = true;
-
     },
 
     // animate the player
@@ -187,8 +193,15 @@ const game = {
 
             this.pathTiles--;
             if (this.pathTiles === 2) { // gate is open when all tiles have been stepped on
-                this.$container[0].style.setProperty("--end-tile-url", "url('../assets/open.png')");
+                this.$container[0].style.setProperty("--end-tile-sprite", "left 0 top 100%");
+                this.$unlock.play();
+            } else if (this.pathTiles > 2) { // place trigger sound if it's just a normal tile
+                this.$trigger.play();
+                this.$trigger.playbackRate = 1.75;
+                this.$trigger.currentTime = 0;
             }
+
+            // up values and DOM
             this.grid[x][y] = 2;
             this.player = [x, y];
             this.updateTile(type, x, y);
@@ -205,7 +218,8 @@ const game = {
                 this.movePlayer(`triggered`, eX, eY);
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
                 this.movePlayer(`end-tile`, eX, eY);
-                this.newLevel(this.level + 1, this.score + this.path.length - 1);
+                this.$ladder.play();
+                this.$ladder.playbackRate = 1.5;
             } 
         }
     },
@@ -234,6 +248,8 @@ const game = {
     initClick: function () {
         // initialize the button to start the game
         $('.ready').on('click', () => {
+            this.$button.play();
+            this.$button.currentTime = 0;
             $('.title').animate({
                 fontSize: $(document).width() > 600 ? '1rem' : '0.85rem',
                 top: 2,
@@ -256,11 +272,11 @@ const game = {
 
         // initialize the button to continue the game
         $('.continue').on('click', () => {
+            this.$button.play();
+            this.$button.currentTime = 0;
             $('.intro-container').slideUp();
             $('.win-container').slideUp();
         });
-
-
 
         // initialize click event for the tiles
         this.$container.on('click', 'button', (e) => {
@@ -300,6 +316,8 @@ const game = {
 
         // initialize the instructions button
         $(`.instructions`).on(`click`, () => {
+            this.$button.play();
+            this.$button.currentTime = 0;
             $(`.intro-container`).slideDown();
             $(`.intro`).css(`top`, `20vh`);
             $(`.continue`).show();
@@ -307,6 +325,8 @@ const game = {
 
         // initialize restart button
         $('.restart').on(`click`, () => {
+            this.$button.play();
+            this.$button.currentTime = 0;
             this.newLevel(-99, 0);
         });
     },
@@ -325,6 +345,13 @@ const game = {
                 this.checkAdjacent(1, x, y + 1, this.spriteSetMultiplier * 4);
             }
         });
+    },
+
+    // initialize event for the end of ladder climb audio
+    initNewLevel: function () {
+        this.$ladder.onended = () => {
+            this.newLevel(this.level + 1, this.score + this.path.length - 1);
+        };
     },
 
     // initialize the transitionend event listener to check if the player has finished moving
@@ -355,7 +382,8 @@ const game = {
         this.setPath();
         this.drawGrid();
 
-        // initialize event listener for transitionend and resize
+        // initialize event listener for ladder audio end, transitionend and resize
+        this.initNewLevel();
         this.initTransitionEnd();
         this.initResize();
 

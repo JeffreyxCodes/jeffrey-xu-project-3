@@ -3,7 +3,8 @@
 // floor tiles created by Stealthix; source: https://stealthix.itch.io/32-x-32-dungeon-assets
 // gate tiles created by lobsovilth; source: https://lobsovilth.itch.io/simple-dungeon-crawler-16x16-pixel-pack
 .game-container {
-    --end-tile-url: url("../assets/close.png");
+    // --end-tile-url: url("../assets/images/close.png");
+    --end-tile-sprite: left 0 top 0;
     height: 80vw;
     max-height: 500px;
     background-color: black;
@@ -16,7 +17,7 @@
 
     button {
         background-color: black;
-        background-image: url("../assets/no-go.png");
+        background-image: url("../assets/images/no-go.png");
         background-size: 100%;
         border: solid 1px white;
         width: 10%;
@@ -30,22 +31,24 @@
 
         &.untrigger {
             background-color: orange;
-            background-image: url("../assets/untrigger2.png");
+            background-image: url("../assets/images/untrigger2.png");
         }
 
         &.triggered {
             background-color: firebrick;
-            background-image: url("../assets/triggered2.png");
+            background-image: url("../assets/images/triggered2.png");
         }
 
         &.start-tile {
             background-color: gray;
-            background-image: url("../assets/start.png");
+            background-image: url("../assets/images/start.png");
         }
 
         &.end-tile {
             background-color: green;
-            background-image: var(--end-tile-url);
+            background-image: url("../assets/images/end.png");
+            background-position: var(--end-tile-sprite);
+            background-size: 100%;
         }
 
         @keyframes spikes {
@@ -75,7 +78,7 @@
                 transform: translate(-50%, -50%);
 
                 // sprite animation related
-                background-image: url("../assets/char-sprite-sheet.png");
+                background-image: url("../assets/images/char-sprite-sheet.png");
                 background-size: 600%;
                 background-position: left 0 top var(--sprite-set);
                 animation: play 0.5s steps(6) infinite;
