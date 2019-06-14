@@ -518,6 +518,7 @@ h3 {
 }
 
 .game-container {
+  --end-tile-url: url("../assets/close.png");
   height: 80vw;
   max-height: 500px;
   background-color: black;
@@ -533,7 +534,9 @@ h3 {
 
 .game-container button {
   background-color: black;
-  border: solid 3px white;
+  background-image: url("../assets/no-go.png");
+  background-size: 100%;
+  border: solid 1px white;
   width: 10%;
   height: 10%;
   float: left;
@@ -546,22 +549,39 @@ h3 {
 
 .game-container button.untrigger {
   background-color: orange;
+  background-image: url("../assets/untrigger2.png");
 }
 
 .game-container button.triggered {
   background-color: firebrick;
+  background-image: url("../assets/triggered2.png");
 }
 
 .game-container button.start-tile {
   background-color: gray;
+  background-image: url("../assets/start.png");
 }
 
 .game-container button.end-tile {
   background-color: green;
+  background-image: var(--end-tile-url);
+}
+
+@-webkit-keyframes spikes {
+  100% {
+    background-position: left 1000% top 0;
+  }
+}
+
+@keyframes spikes {
+  100% {
+    background-position: left 1000% top 0;
+  }
 }
 
 .game-container button.player {
   background-color: transparent;
+  background-image: none;
   border-color: transparent;
   position: absolute;
   -webkit-transition: 0.2s;
@@ -598,8 +618,7 @@ h3 {
 
 body {
   height: 100vh;
-  background-color: #7f5a83;
-  background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%);
+  background-image: url("../assets/darkness.png");
 }
 
 .wrapper {

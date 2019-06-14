@@ -161,6 +161,9 @@ const game = {
         this.removePlayer();
         this.updateGrid();
 
+        // reset the gate to be closed
+        this.$container[0].style.setProperty("--end-tile-url", "url('../assets/close.png')");
+
         // allow player to move
         this.moveEnded = true;
 
@@ -183,6 +186,9 @@ const game = {
             this.moveEnded = false;
 
             this.pathTiles--;
+            if (this.pathTiles === 2) { // gate is open when all tiles have been stepped on
+                this.$container[0].style.setProperty("--end-tile-url", "url('../assets/open.png')");
+            }
             this.grid[x][y] = 2;
             this.player = [x, y];
             this.updateTile(type, x, y);
@@ -200,7 +206,7 @@ const game = {
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
                 this.movePlayer(`end-tile`, eX, eY);
                 this.newLevel(this.level + 1, this.score + this.path.length - 1);
-            }
+            } 
         }
     },
 
