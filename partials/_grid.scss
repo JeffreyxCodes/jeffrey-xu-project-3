@@ -43,13 +43,13 @@
             border-color: transparent;
 
             position: absolute;
-            transition: 0.2s;
+            transition: 0.2s; // needs to be low for a faster movement
 
             .player-sprite {
                 // dimension of the sprite
                 --sprite-set: 0px;
                 width: 75%;
-                height: 75%;
+                height: 90%;
 
                 // center the sprite
                 position: absolute;
@@ -59,13 +59,14 @@
 
                 // sprite animation related
                 background-image: url("../assets/char-sprite-sheet.png");
+                background-size: 600%;
                 background-position: left 0 top var(--sprite-set);
                 animation: play 0.5s steps(6) infinite;
-            }
 
-            @keyframes play {
-                100% {
-                    background-position: left 192px top var(--sprite-set);
+                @keyframes play {
+                    100% {
+                        background-position: left 600% top var(--sprite-set);
+                    }
                 }
             }
         }

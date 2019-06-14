@@ -11,6 +11,7 @@ const game = {
     level: -99,
     score: 0,
     direction: 0,
+    spriteSetMultiplier: 100 / 7,
     moveEnded: true,
     $level: $('.level'),
     $score: $('.score'),
@@ -168,7 +169,7 @@ const game = {
     // animate the player
     drawPlayer: function () {
         // change sprite sheet location to reflect direction
-        this.$sprite[0].style.setProperty("--sprite-set", `${this.direction}px`);
+        this.$sprite[0].style.setProperty("--sprite-set", `${this.direction}%`);
 
         this.$player.css({
             "left": `${this.tileSize * (this.player[0])}px`,
@@ -267,11 +268,11 @@ const game = {
                 // check if the clicked tile is adjacent to the player
                 if (eX === pX) { // same row as player
                     distance = eY - pY;
-                    direction = distance > 0 ? -160 : -200
+                    direction = distance > 0 ? this.spriteSetMultiplier * 4 : this.spriteSetMultiplier * 5;
                     this.checkAdjacent(Math.abs(distance), eX, eY, direction);
                 } else if (eY === pY) { // same column as player
                     distance = eX - pX;
-                    direction = distance > 0 ? -280 : -240
+                    direction = distance > 0 ? 100 : this.spriteSetMultiplier * 6;
                     this.checkAdjacent(Math.abs(distance), eX, eY, direction);
                 }
             }
@@ -279,16 +280,15 @@ const game = {
 
         // initialize click event for the virtual arrow keys
         $(`#arrow-keys`).on(`click`, `button`, (e) => {
-            // console.log(e);
             const [x, y] = this.player;
             if (e.currentTarget.className === `left`) {
-                this.checkAdjacent(1, x - 1, y, -240);
+                this.checkAdjacent(1, x - 1, y, this.spriteSetMultiplier * 6);
             } else if (e.currentTarget.className === `up`) {
-                this.checkAdjacent(1, x, y - 1, -200);
+                this.checkAdjacent(1, x, y - 1, this.spriteSetMultiplier * 5);
             } else if (e.currentTarget.className === `right`) {
-                this.checkAdjacent(1, x + 1, y, -280);
+                this.checkAdjacent(1, x + 1, y, 100);
             } else {
-                this.checkAdjacent(1, x, y + 1, -160);
+                this.checkAdjacent(1, x, y + 1, this.spriteSetMultiplier * 4);
             }
         })
 
@@ -310,13 +310,13 @@ const game = {
         $(document).keyup((e) => {
             const [x, y] = this.player;
             if (e.keyCode === 37 && x > 0) { // left
-                this.checkAdjacent(1, x - 1, y, -240);
+                this.checkAdjacent(1, x - 1, y, this.spriteSetMultiplier * 6);
             } else if (e.keyCode === 38 && y > 0) { // up
-                this.checkAdjacent(1, x, y - 1, -200);
+                this.checkAdjacent(1, x, y - 1, this.spriteSetMultiplier * 5);
             } else if (e.keyCode === 39 && x < this.grid.length - 1) { // right
-                this.checkAdjacent(1, x + 1, y, -280);
+                this.checkAdjacent(1, x + 1, y, 100);
             } else if (e.keyCode === 40 && y < this.grid.length - 1) { // down
-                this.checkAdjacent(1, x, y + 1, -160);
+                this.checkAdjacent(1, x, y + 1, this.spriteSetMultiplier * 4);
             }
         });
     },
@@ -326,8 +326,8 @@ const game = {
         $(document).on("transitionend", () => {
             if (!this.moveEnded) { // roughly check if the transition is from player movement
                 this.moveEnded = true;
-                this.direction = this.direction + 160;
-                this.$sprite[0].style.setProperty("--sprite-set", `${this.direction}px`);
+                this.direction = this.direction - this.spriteSetMultiplier * 4;
+                this.$sprite[0].style.setProperty("--sprite-set", `${this.direction}%`);
             }
         });
     },
