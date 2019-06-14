@@ -416,6 +416,7 @@ h3 {
 }
 
 .intro-container .intro .once {
+  color: orange;
   text-decoration: underline;
   font-style: italic;
   font-weight: bold;

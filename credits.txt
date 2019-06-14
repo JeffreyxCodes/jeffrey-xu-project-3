@@ -1,0 +1,12 @@
+- character sprite created by Vryell, source: https://vryell.itch.io/tiny-adventure-pack
+
+- floor tiles created by Stealthix; source: https://stealthix.itch.io/32-x-32-dungeon-assets
+
+- gate tiles created by lobsovilth; source: https://lobsovilth.itch.io/simple-dungeon-crawler-16x16-pixel-pack
+
+- theme music School by Komiku; source: http://freemusicarchive.org/music/Komiku/Captain_Glouglous_Incredible_Week_Soundtrack/school
+
+- button audio by newagesoup; source: https://freesound.org/people/newagesoup/sounds/348239/
+
+- ladder audio by Jay_You; source: https://freesound.org/people/Jay_You/sounds/460423/
+
