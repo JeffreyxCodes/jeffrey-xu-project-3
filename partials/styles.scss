@@ -19,7 +19,17 @@
 // general styles
 body {
     height: 100vh;
-    background-image: url("../assets/darkness.png"); 
+    background-image: url("../assets/images/darkness.png");
+    animation: roam 25s infinite alternate linear;
+
+    @keyframes roam {
+        0% {
+            background-position: 0% 0%;
+        }
+        100% {
+            background-position: 100% 100%;
+        }
+    }
 }
 
 .wrapper {

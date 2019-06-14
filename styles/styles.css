@@ -518,7 +518,7 @@ h3 {
 }
 
 .game-container {
-  --end-tile-url: url("../assets/close.png");
+  --end-tile-sprite: left 0 top 0;
   height: 80vw;
   max-height: 500px;
   background-color: black;
@@ -534,7 +534,7 @@ h3 {
 
 .game-container button {
   background-color: black;
-  background-image: url("../assets/no-go.png");
+  background-image: url("../assets/images/no-go.png");
   background-size: 100%;
   border: solid 1px white;
   width: 10%;
@@ -549,22 +549,24 @@ h3 {
 
 .game-container button.untrigger {
   background-color: orange;
-  background-image: url("../assets/untrigger2.png");
+  background-image: url("../assets/images/untrigger2.png");
 }
 
 .game-container button.triggered {
   background-color: firebrick;
-  background-image: url("../assets/triggered2.png");
+  background-image: url("../assets/images/triggered2.png");
 }
 
 .game-container button.start-tile {
   background-color: gray;
-  background-image: url("../assets/start.png");
+  background-image: url("../assets/images/start.png");
 }
 
 .game-container button.end-tile {
   background-color: green;
-  background-image: var(--end-tile-url);
+  background-image: url("../assets/images/end.png");
+  background-position: var(--end-tile-sprite);
+  background-size: 100%;
 }
 
 @-webkit-keyframes spikes {
@@ -597,7 +599,7 @@ h3 {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  background-image: url("../assets/char-sprite-sheet.png");
+  background-image: url("../assets/images/char-sprite-sheet.png");
   background-size: 600%;
   background-position: left 0 top var(--sprite-set);
   -webkit-animation: play 0.5s steps(6) infinite;
@@ -618,7 +620,27 @@ h3 {
 
 body {
   height: 100vh;
-  background-image: url("../assets/darkness.png");
+  background-image: url("../assets/images/darkness.png");
+  -webkit-animation: roam 25s infinite alternate linear;
+          animation: roam 25s infinite alternate linear;
+}
+
+@-webkit-keyframes roam {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes roam {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
 }
 
 .wrapper {
