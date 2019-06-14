@@ -20,6 +20,7 @@ const game = {
     $player: undefined,
     $sprite: undefined,
     // audio
+    $theme: $('#theme')[0],
     $button: $('#button')[0],
     $ladder: $('#ladder')[0],
     $trigger: $('#trigger')[0],
@@ -248,6 +249,11 @@ const game = {
     initClick: function () {
         // initialize the button to start the game
         $('.ready').on('click', () => {
+            // start theme
+            this.$theme.play();
+            this.$theme.volume = 0.25;
+
+            // button sound effect
             this.$button.play();
             this.$button.currentTime = 0;
             $('.title').animate({
@@ -276,6 +282,16 @@ const game = {
             this.$button.currentTime = 0;
             $('.intro-container').slideUp();
             $('.win-container').slideUp();
+        });
+
+        $(`.music`).on('click', () => {
+            this.$button.play();
+            this.$button.currentTime = 0;
+            if (this.$theme.paused) {
+                this.$theme.play();
+            } else {
+                this.$theme.pause();
+            }
         });
 
         // initialize click event for the tiles
@@ -321,6 +337,7 @@ const game = {
             $(`.intro-container`).slideDown();
             $(`.intro`).css(`top`, `20vh`);
             $(`.continue`).show();
+            $(`.music`).show();
         });
 
         // initialize restart button

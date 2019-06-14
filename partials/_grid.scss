@@ -51,12 +51,6 @@
             background-size: 100%;
         }
 
-        @keyframes spikes {
-            100% {
-                background-position: left 1000% top 0;
-            }
-        }
-
         &.player {
             background-color: transparent;
             background-image: none;
@@ -82,12 +76,6 @@
                 background-size: 600%;
                 background-position: left 0 top var(--sprite-set);
                 animation: play 0.5s steps(6) infinite;
-
-                @keyframes play {
-                    100% {
-                        background-position: left 600% top var(--sprite-set);
-                    }
-                }
             }
         }
     }

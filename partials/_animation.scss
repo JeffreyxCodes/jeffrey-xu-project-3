@@ -1,3 +1,18 @@
+@keyframes roam {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+@keyframes play {
+    100% {
+        background-position: left 600% top var(--sprite-set);
+    }
+}
+
 @keyframes front-back {
     0% {
         z-index: 2;

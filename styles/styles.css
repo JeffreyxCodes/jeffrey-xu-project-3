@@ -172,6 +172,36 @@ h3 {
   color: white;
 }
 
+@-webkit-keyframes roam {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes roam {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@-webkit-keyframes play {
+  100% {
+    background-position: left 600% top var(--sprite-set);
+  }
+}
+
+@keyframes play {
+  100% {
+    background-position: left 600% top var(--sprite-set);
+  }
+}
+
 @-webkit-keyframes front-back {
   0% {
     z-index: 2;
@@ -391,7 +421,8 @@ h3 {
   font-weight: bold;
 }
 
-.intro-container .intro .continue {
+.intro-container .intro .continue,
+.intro-container .intro .music {
   display: none;
 }
 
@@ -569,18 +600,6 @@ h3 {
   background-size: 100%;
 }
 
-@-webkit-keyframes spikes {
-  100% {
-    background-position: left 1000% top 0;
-  }
-}
-
-@keyframes spikes {
-  100% {
-    background-position: left 1000% top 0;
-  }
-}
-
 .game-container button.player {
   background-color: transparent;
   background-image: none;
@@ -606,41 +625,11 @@ h3 {
           animation: play 0.5s steps(6) infinite;
 }
 
-@-webkit-keyframes play {
-  100% {
-    background-position: left 600% top var(--sprite-set);
-  }
-}
-
-@keyframes play {
-  100% {
-    background-position: left 600% top var(--sprite-set);
-  }
-}
-
 body {
   height: 100vh;
   background-image: url("../assets/images/darkness.png");
   -webkit-animation: roam 25s infinite alternate linear;
           animation: roam 25s infinite alternate linear;
-}
-
-@-webkit-keyframes roam {
-  0% {
-    background-position: 0% 0%;
-  }
-  100% {
-    background-position: 100% 100%;
-  }
-}
-
-@keyframes roam {
-  0% {
-    background-position: 0% 0%;
-  }
-  100% {
-    background-position: 100% 100%;
-  }
 }
 
 .wrapper {
