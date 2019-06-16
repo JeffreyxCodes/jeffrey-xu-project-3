@@ -1,3 +1,5 @@
+- background "Darkness" by Isabelle Schniermanni, source: https://www.toptal.com/designers/subtlepatterns/darkness/ ; license: https://creativecommons.org/licenses/by-sa/3.0/legalcode
+
 - character sprite created by Vryell, source: https://vryell.itch.io/tiny-adventure-pack
 
 - floor tiles created by Stealthix; source: https://stealthix.itch.io/32-x-32-dungeon-assets
