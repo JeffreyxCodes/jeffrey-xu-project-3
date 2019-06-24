@@ -49,13 +49,16 @@
     }
 }
 
-.win-container {
+.win-container,
+.loose-container {
     @include modal;
     display: none;
 
-    .win {
+    .win,
+    .loose {
         position: relative;
         top: 45vh;
         font-size: 1.2rem;
+        text-align: center;
     }
 }

@@ -9,15 +9,20 @@ const game = {
     path: [],
     pathTiles: 0,
     player: [],
-    level: -99,
+    level: -25,
+    timer: undefined,
+    time: 0,
     score: 0,
     direction: 0,
     spriteSetMultiplier: 100 / 7,
     moveEnded: true,
     firebase: undefined,
     $level: $('.level'),
+    $time: $('.time'),
     $score: $('.score'),
     $container: $('.game-container'),
+    $win: $('.win-container'),
+    $loose: $('.loose-container'),
     $player: undefined,
     $sprite: undefined,
     // audio
@@ -89,6 +94,8 @@ const game = {
         } while (freeTiles.length !== 0);
         this.grid[x][y] = 4; // end point
         this.pathTiles = this.path.length;
+        // this.time = Math.ceil(this.pathTiles * 0.8);
+        this.time = 93;
     },
 
     // displays the grid - only used for the initial start of the app
@@ -134,16 +141,16 @@ const game = {
         const tiles = this.path.length;
         for (let i = 0; i < tiles; i++) {
             this.grid[this.path[i][0]][this.path[i][1]] = 0;
-            this.updateTile("", this.path[i][0], this.path[i][1]);
+            this.updateTile("", this.path[i][0], this.path[i][1], -1);
         }
     },
 
     // update the tile given the type and position
-    updateTile: function (type, x, y) {
+    updateTile: function (type, x, y, tab = 0) {
         $(`[data-position="${x},${y}"]`).attr({
             "class": type,
             "aria-label": `${type} tile at position (${x},${y})`,
-            "tabindex": type === "" ? "-1" : "0"
+            "tabindex": tab
         });
     },
 
@@ -167,15 +174,18 @@ const game = {
 
     // setup for a new level
     newLevel: function(level, score) {
+        // clear old timer first
+        clearInterval(this.timer);
+
         // set the level and score
         this.level = level;
         this.$level.text(this.level);
-        this.score = score
+        this.score = score;
         this.$score.text(this.score);
 
         // win if level = 0, display win modal
         if (level === 0) {
-            $('.win-container').slideDown();
+            this.$win.slideDown();
         }
 
         // reset the grid
@@ -192,6 +202,9 @@ const game = {
 
         // allow player to move
         this.moveEnded = true;
+
+        // start timer
+        this.initTime();
     },
 
     // animate the player
@@ -237,6 +250,7 @@ const game = {
                 this.movePlayer('triggered', eX, eY);
             } else if (this.pathTiles === 2 && this.grid[eX][eY] === 4) { // able to take last step
                 this.movePlayer('end-tile', eX, eY);
+                clearInterval(this.timer);
                 this.$ladder.play();
                 this.$ladder.playbackRate = 1.5;
             } 
@@ -261,6 +275,18 @@ const game = {
     // remove the player
     removePlayer: function () {
         $('.player').remove();
+    },
+
+    // initialize timer
+    initTime: function () {
+        this.timer = setInterval(() => {
+            if (this.time === 0) {
+                clearInterval(this.timer);
+                this.$theme.volume = 0;
+                this.$loose.slideDown();
+            }
+            this.$time.text(this.time--);
+        }, 1000);
     },
 
     // initialize all the click events
@@ -292,6 +318,9 @@ const game = {
             });
 
             $('.ready').remove();
+
+            // initialize timer
+            this.initTime();
         });
 
         // initialize the button to continue the game
@@ -299,7 +328,6 @@ const game = {
             this.$button.play();
             this.$button.currentTime = 0;
             $('.intro-container').slideUp();
-            $('.win-container').slideUp();
         });
 
         $('.music').on('click', () => {
@@ -362,7 +390,11 @@ const game = {
         $('.restart').on('click', () => {
             this.$button.play();
             this.$button.currentTime = 0;
-            this.newLevel(-99, 0);
+            this.$theme.volume = 0.25;
+
+            this.$win.slideUp();
+            this.$loose.slideUp();
+            this.newLevel(-25, 0);
         });
     },
 
@@ -385,7 +417,7 @@ const game = {
     // initialize event for the end of ladder climb audio
     initNewLevel: function () {
         this.$ladder.onended = () => {
-            this.newLevel(this.level + 1, this.score + this.path.length - 1);
+            this.newLevel(this.level + 1, this.score + this.time);
         };
     },
 
