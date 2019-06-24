@@ -50,15 +50,16 @@
 }
 
 .win-container,
-.loose-container {
+.loose-container,
+.highscore-container {
     @include modal;
     display: none;
 
     .win,
-    .loose {
+    .loose,
+    .highscore {
         position: relative;
-        top: 45vh;
-        font-size: 1.2rem;
+        top: 35vh;
         text-align: center;
     }
 }

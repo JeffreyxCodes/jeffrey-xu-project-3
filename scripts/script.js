@@ -9,7 +9,7 @@ const game = {
     path: [],
     pathTiles: 0,
     player: [],
-    level: -25,
+    level: -1,
     timer: undefined,
     time: 0,
     score: 0,
@@ -94,8 +94,7 @@ const game = {
         } while (freeTiles.length !== 0);
         this.grid[x][y] = 4; // end point
         this.pathTiles = this.path.length;
-        // this.time = Math.ceil(this.pathTiles * 0.8);
-        this.time = 93;
+        this.time = Math.ceil(this.pathTiles * 0.6 - (this.level / 25) * 5);
     },
 
     // sets the dimension of the game container and the tile size
@@ -195,25 +194,25 @@ const game = {
         // win if level = 0, display win modal
         if (level === 0) {
             this.$win.slideDown();
+        } else {
+            // reset the grid
+            this.resetGrid();
+
+            // setup the path, grid, and player on the grid
+            this.setStartPosition(Math.floor(Math.random() * this.grid.length), Math.floor(Math.random() * this.grid.length));
+            this.setPath();
+            this.removePlayer();
+            this.updateGrid();
+
+            // reset the gate to be closed
+            this.$container[0].style.setProperty('--end-tile-sprite', '0 0');
+
+            // allow player to move
+            this.moveEnded = true;
+
+            // start timer
+            this.initTime();
         }
-
-        // reset the grid
-        this.resetGrid();
-
-        // setup the path, grid, and player on the grid
-        this.setStartPosition(Math.floor(Math.random() * this.grid.length), Math.floor(Math.random() * this.grid.length));
-        this.setPath();
-        this.removePlayer();
-        this.updateGrid();
-
-        // reset the gate to be closed
-        this.$container[0].style.setProperty('--end-tile-sprite', '0 0');
-
-        // allow player to move
-        this.moveEnded = true;
-
-        // start timer
-        this.initTime();
     },
 
     // animate the player
@@ -389,11 +388,28 @@ const game = {
         $('.instructions').on('click', () => {
             this.$button.play();
             this.$button.currentTime = 0;
+
             $('.intro-container').slideDown();
             $('.intro').css('top', '20vh');
             $('.continue').show();
             $('.music').show();
         });
+
+        // initialize the highscore button
+        $('.view-highscore').on('click', () => {
+            this.$button.play();
+            this.$button.currentTime = 0;
+
+            $('.highscore-container').slideDown();
+        });
+
+        // initialize the return button
+        $('.return').on('click', () => {
+            this.$button.play();
+            this.$button.currentTime = 0;
+
+            $('.highscore-container').slideUp();
+        })
 
         // initialize restart button
         $('.restart').on('click', () => {
@@ -403,7 +419,7 @@ const game = {
 
             this.$win.slideUp();
             this.$loose.slideUp();
-            this.newLevel(-25, 0);
+            this.newLevel(-1, 0);
         });
     },
 
