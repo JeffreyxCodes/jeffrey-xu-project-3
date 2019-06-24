@@ -14,6 +14,7 @@ const game = {
     direction: 0,
     spriteSetMultiplier: 100 / 7,
     moveEnded: true,
+    firebase: undefined,
     $level: $('.level'),
     $score: $('.score'),
     $container: $('.game-container'),
@@ -26,6 +27,20 @@ const game = {
     $trigger: $('#trigger')[0],
     $unlock: $('#unlock')[0],
 
+
+    // initialize firebase
+    initFirebase: function () {
+        this.firebase = {
+            apiKey: "AIzaSyBbGeZ8HOIYzeKjDMfNwlIpGG4tbG3-dw4",
+            authDomain: "no-looking-back.firebaseapp.com",
+            databaseURL: "https://no-looking-back.firebaseio.com",
+            projectId: "no-looking-back",
+            storageBucket: "",
+            messagingSenderId: "21280180418",
+            appId: "1:21280180418:web:0cb155a9c46827c9"
+        };
+        firebase.initializeApp(firebaseConfig);
+    },
 
     // create the 2d array used for the grid
     initGrid: function () {
@@ -97,7 +112,7 @@ const game = {
     drawTile: function (value, x, y) {
         if (value === 0) {
             this.$container.append(
-                `<button data-position="${x},${y}" aria-label="invalid tile"></button>`
+                `<button data-position="${x},${y}" aria-label="invalid tile" tabindex="-1"></button>`
             );
         } else if (value === 1) {
             this.$container.append(
@@ -125,8 +140,11 @@ const game = {
 
     // update the tile given the type and position
     updateTile: function (type, x, y) {
-        $(`[data-position="${x},${y}"]`).attr('class', type);
-        $(`[data-position="${x},${y}"]`).attr('aria-label', `${type} tile at position (${x},${y})`);
+        $(`[data-position="${x},${y}"]`).attr({
+            "class": type,
+            "aria-label": `${type} tile at position (${x},${y})`,
+            "tabindex": type === "" ? "-1" : "0"
+        });
     },
 
     // update the grid
