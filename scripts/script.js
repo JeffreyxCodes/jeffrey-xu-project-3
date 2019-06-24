@@ -98,18 +98,27 @@ const game = {
         this.time = 93;
     },
 
-    // displays the grid - only used for the initial start of the app
-    drawGrid: function () {
-        let value;
-        for (let i = 0; i < 10; i++) { // y axis
-            for (let j = 0; j < 10; j++) { // x axis
-                value = this.grid[j][i];
-                this.drawTile(value, j, i);
-            }
-        }
+    // sets the dimension of the game container and the tile size
+    setDimension: function () {
+        const min = Math.min($(window).innerWidth(), $(window).innerHeight() - 200);
+        this.$container.css({
+            width: min,
+            height: min
+        });
 
         // calculate and set the size of each tile
         this.tileSize = this.$container.innerWidth() / 10;
+    },
+
+    // displays the grid - only used for the initial start of the app
+    drawGrid: function () {
+        this.setDimension();
+
+        for (let i = 0; i < 10; i++) { // y axis
+            for (let j = 0; j < 10; j++) { // x axis
+                this.drawTile(this.grid[j][i], j, i);
+            }
+        }
 
         this.addPlayer();
     },
@@ -435,7 +444,7 @@ const game = {
     // initialize the resize event listener to resize tile size
     initResize: function () {
         $(window).resize(() => {
-            this.tileSize = this.$container.innerWidth() / 10;
+            this.setDimension();
             this.drawPlayer();
         });
     },

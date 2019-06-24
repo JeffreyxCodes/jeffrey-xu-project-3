@@ -1,17 +1,11 @@
 // styles for the grid
 .game-container {
-    // --end-tile-url: url("../assets/images/close.png");
     --end-tile-sprite: left 0 top 0;
-    // height: 80vw;
     height: calc(100vh - 200px);
     max-height: 500px;
     background-color: black;
     margin: 0 auto 5px;
     position: relative;
-
-    @media (max-width: 500px) {
-        // height: 90vw;
-    }
 
     button {
         background-color: black;
