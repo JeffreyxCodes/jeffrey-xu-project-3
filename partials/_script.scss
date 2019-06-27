@@ -15,31 +15,17 @@
             text-shadow: 1px 1px 3px black;
         }
 
-        .blue {
-            background-color: teal
-        }
-
-        .gray {
-            background-color: gray;
-        }
-
-        .green {
-            background-color: green;
-        }
-
-        .orange {
-            background-color: orange;
-        }
-
-        .red {
-            background-color: firebrick;
-        }
-
         .once {
             color: orange;
             text-decoration: underline;
             font-style: italic;
             font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            text-align: center;
+            border-radius: 25px;
         }
 
         .continue,

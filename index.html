@@ -25,11 +25,16 @@
                 persistent and careful, the exact traits that you'll need for you to get back up to gound zero. Here's
                 what you need to know:</h3>
             <h3>The ladder behind the locked gate is the key to go back up. In order to unlock the gate though, you have
-                to
-                step on all the trigger tiles <span class="once">once and only once</span>.</h3>
+                to step on all the trigger tiles <span class="once">once and only once</span>.</h3>
             <h3>You can move one tile at a time and move using the physical/virtual arrow keys or click/press on the
-                tiles. Ready?</h3>
-            <button class="ready flow-button">Let's Do This!</button>
+                tiles.</h3>
+            <form>
+                <h3>Ready? Of course you are, because you are:</h3>
+                <label for="name" class="visually-hidden">Player Name</label>
+                <input class="name" name="name" type="text" placeholder="I am..." pattern="\S.{0,12}"
+                    title="Please enter 1 to 12 characters." required />
+                <button type="submit" class="ready flow-button">Let's Do This!</button>
+            </form>
             <button class="continue flow-button">Continue</button>
             <button class="music flow-button">Toggle Music</button>
             <button class="view-highscore flow-button">High score</button>
@@ -107,8 +112,9 @@
     <audio id="trigger" src="./assets/audio/trigger.wav"></audio>
     <audio id="unlock" src="./assets/audio/unlock.wav"></audio>
 
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-database.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
     <script src="./scripts/script.js"></script>
 </body>
 

@@ -16,15 +16,21 @@ const game = {
     direction: 0,
     spriteSetMultiplier: 100 / 7,
     moveEnded: true,
-    firebase: undefined,
+
+    name: '',
+    dbRef: undefined,
+    highscores: undefined,
+
     $level: $('.level'),
     $time: $('.time'),
     $score: $('.score'),
     $container: $('.game-container'),
     $win: $('.win-container'),
     $loose: $('.loose-container'),
+    $highscores: $('.highscore-list'),
     $player: undefined,
     $sprite: undefined,
+
     // audio
     $theme: $('#theme')[0],
     $button: $('#button')[0],
@@ -33,9 +39,18 @@ const game = {
     $unlock: $('#unlock')[0],
 
 
+    // display the highscores
+    displayHighscore: function () {
+        let index = 1;
+        this.$highscores.empty();
+        for (let highscore of this.highscores) {
+            this.$highscores.append(`<li>${index++}: ${highscore[name]} --- ${highscore[score]}</li>`);
+        }
+    },
+
     // initialize firebase
     initFirebase: function () {
-        this.firebase = {
+        const config = {
             apiKey: "AIzaSyBbGeZ8HOIYzeKjDMfNwlIpGG4tbG3-dw4",
             authDomain: "no-looking-back.firebaseapp.com",
             databaseURL: "https://no-looking-back.firebaseio.com",
@@ -44,7 +59,13 @@ const game = {
             messagingSenderId: "21280180418",
             appId: "1:21280180418:web:0cb155a9c46827c9"
         };
-        firebase.initializeApp(firebaseConfig);
+        firebase.initializeApp(config);
+
+        // retrieve most updated highscore list
+        this.dbRef = firebase.database().ref().orderByChild('score').limitToLast(3);
+        this.dbRef.on('value', snap => {
+            this.highscores = snap.val();
+        });
     },
 
     // create the 2d array used for the grid
@@ -300,35 +321,42 @@ const game = {
     // initialize all the click events
     initClick: function () {
         // initialize the button to start the game
-        $('.ready').on('click', () => {
-            // start theme
-            this.$theme.play();
-            this.$theme.volume = 0.25;
+        $('form').submit((e) => {
+            e.preventDefault();
 
-            // button sound effect
-            this.$button.play();
-            this.$button.currentTime = 0;
-            $('.title').animate({
-                fontSize: $(document).width() > 600 ? '1rem' : '0.85rem',
-                top: 2,
-            }, {
-                duration: 0, //1500
-                complete: () => {
-                    $('.title').css('position', 'relative');
-                    $('.intro-container').slideUp();
-                }
-            })
+            // get the player's name
+            this.name = $('.name').val().trim();
 
-            $('.back').animate({
-                top: '-1.3rem'
-            }, {
-                duration: 0 //1500
-            });
+            if (this.name) {
+                // start theme
+                this.$theme.play();
+                this.$theme.volume = 0.25;
 
-            $('.ready').remove();
+                // button sound effect
+                this.$button.play();
+                this.$button.currentTime = 0;
+                $('.title').animate({
+                    fontSize: $(document).width() > 600 ? '1rem' : '0.85rem',
+                    top: 2,
+                }, {
+                        duration: 0, //1500
+                        complete: () => {
+                            $('.title').css('position', 'relative');
+                            $('.intro-container').slideUp();
+                        }
+                    })
 
-            // initialize timer
-            this.initTime();
+                $('.back').animate({
+                    top: '-1.3rem'
+                }, {
+                        duration: 0 //1500
+                    });
+
+                $('form').remove();
+
+                // initialize timer
+                this.initTime();
+            }
         });
 
         // initialize the button to continue the game
@@ -478,6 +506,9 @@ const game = {
         this.initNewLevel();
         this.initTransitionEnd();
         this.initResize();
+
+        // initialize firebase
+        this.initFirebase();
 
         // initialize the click events
         this.initClick();

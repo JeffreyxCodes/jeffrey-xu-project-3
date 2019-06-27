@@ -156,6 +156,20 @@ legend, button::-moz-focus-inner, input::-moz-focus-inner {
   box-sizing: border-box;
 }
 
+.visually-hidden:not(:focus):not(:active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  -webkit-clip-path: inset(100%);
+          clip-path: inset(100%);
+  clip: rect(0 0 0);
+  overflow: hidden;
+}
+
 body {
   font-family: 'Lato', sans-serif;
 }
@@ -405,31 +419,17 @@ h4 {
   text-shadow: 1px 1px 3px black;
 }
 
-.intro-container .intro .blue {
-  background-color: teal;
-}
-
-.intro-container .intro .gray {
-  background-color: gray;
-}
-
-.intro-container .intro .green {
-  background-color: green;
-}
-
-.intro-container .intro .orange {
-  background-color: orange;
-}
-
-.intro-container .intro .red {
-  background-color: firebrick;
-}
-
 .intro-container .intro .once {
   color: orange;
   text-decoration: underline;
   font-style: italic;
   font-weight: bold;
+}
+
+.intro-container .intro input {
+  width: 100%;
+  text-align: center;
+  border-radius: 25px;
 }
 
 .intro-container .intro .continue,
